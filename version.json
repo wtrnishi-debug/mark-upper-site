@@ -1,5 +1,5 @@
 {
-  "version": "1.2.3",
-  "notes": "添付・送信ボタンの高さ統一、ステータスをコメントヘッダーに移動して目立たせる",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.2.3.zip"
+  "version": "1.2.4",
+  "notes": "添付ボタンをlabelからbuttonに変更して高さを完全統一、コメント入力欄の余白を削減",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.2.4.zip"
 }
