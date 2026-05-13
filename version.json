@@ -1,5 +1,5 @@
 {
-  "version": "1.2.7",
-  "notes": "返信失敗時のボタン修正、PC/Mobile切り替えのエラー対策、SQLセットアップファイルを最新スキーマに更新",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.2.7.zip"
+  "version": "1.2.8",
+  "notes": "名前未入力でクリックした際、カーソル近くにアラートを表示",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.2.8.zip"
 }
