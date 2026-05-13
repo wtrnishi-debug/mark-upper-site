@@ -1,5 +1,5 @@
 {
-  "version": "1.2.4",
-  "notes": "添付ボタンをlabelからbuttonに変更して高さを完全統一、コメント入力欄の余白を削減",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.2.4.zip"
+  "version": "1.2.5",
+  "notes": "ピンホバー時のブラウザ標準ツールチップを非表示",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.2.5.zip"
 }
