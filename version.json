@@ -1,5 +1,5 @@
 {
-  "version": "1.2.6",
-  "notes": "拡張機能更新直後の Extension context invalidated エラーを抑制",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.2.6.zip"
+  "version": "1.2.7",
+  "notes": "返信失敗時のボタン修正、PC/Mobile切り替えのエラー対策、SQLセットアップファイルを最新スキーマに更新",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.2.7.zip"
 }
