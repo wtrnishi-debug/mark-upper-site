@@ -1,5 +1,5 @@
 {
-  "version": "1.2.2",
-  "notes": "CSP制限のあるサイトでもSupabase通信ができるよう修正（Fetchをバックグラウンド経由に変更）",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.2.2.zip"
+  "version": "1.2.3",
+  "notes": "添付・送信ボタンの高さ統一、ステータスをコメントヘッダーに移動して目立たせる",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.2.3.zip"
 }
