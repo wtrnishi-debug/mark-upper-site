@@ -1,5 +1,5 @@
 {
-  "version": "1.2.8",
-  "notes": "名前未入力でクリックした際、カーソル近くにアラートを表示",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.2.8.zip"
+  "version": "1.2.9",
+  "notes": "名前未入力アラートのReferenceErrorを修正（pageX/pageYの初期化順序）",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.2.9.zip"
 }
