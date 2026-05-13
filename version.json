@@ -1,5 +1,5 @@
 {
-  "version": "1.1.3",
-  "notes": "バグ修正・コメント主のみ削除可・キャッシュ最適化",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.1.3.zip"
+  "version": "1.1.4",
+  "notes": "ピン位置を要素基準に変更（画面幅変更でもズレない）・右下アンカーナビ追加",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.1.4.zip"
 }
