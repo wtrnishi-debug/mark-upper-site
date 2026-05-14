@@ -1,5 +1,5 @@
 {
-  "version": "1.3.0",
-  "notes": "コメント削除・新着通知確認後のキャッシュ不整合を修正（デバイス切り替えで消えたコメントが復活する問題など）",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.3.0.zip"
+  "version": "1.4.0",
+  "notes": "ピン位置が画面幅によってずれる問題を修正（クラス名に依存しない構造パスでセレクタを生成するよう変更）",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.4.0.zip"
 }
