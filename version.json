@@ -1,5 +1,5 @@
 {
-  "version": "1.5.0",
-  "notes": "ピン位置のずれをさらに改善（テキストアンカー方式・セマンティックコンテナ内%方式を追加）",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.5.0.zip"
+  "version": "1.6.0",
+  "notes": "全員が同じ幅で見る固定幅方式を導入・ピンをドラッグで移動できる機能を追加",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.6.0.zip"
 }
