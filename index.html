@@ -78,7 +78,7 @@
 <section class="hero">
   <h1>チームで使える<br>Webサイト修正指示ツール</h1>
   <p>ブラウザ上でサイトの気になる箇所に直接コメントを残せます。</p>
-  <a href="downloads/mark-upper-1.2.1.zip" class="dl-btn" download>⬇ 拡張機能をダウンロード</a>
+  <a id="dl-btn" href="downloads/mark-upper-1.7.0.zip" class="dl-btn" download>⬇ 拡張機能をダウンロード</a>
   <span class="version-badge" id="version-badge">読み込み中…</span>
 </section>
 
@@ -88,9 +88,9 @@
     <div class="update-box">
       <h3>🔄 バージョンが上がったら</h3>
       <ul class="update-steps">
-        <li data-n="1">このページから最新のZIPをダウンロードして解凍する</li>
-        <li data-n="2"><code>chrome://extensions</code> を開き、古いMark Upperを削除する</li>
-        <li data-n="3">「パッケージ化されていない拡張機能を読み込む」で新しいフォルダを選択する</li>
+        <li data-n="1">このページから最新のZIPをダウンロードして解凍し、既存フォルダに上書きする</li>
+        <li data-n="2"><code>chrome://extensions</code> を開き、Mark Upper の 🔄 ボタンを押す</li>
+        <li data-n="3">使っているタブをリロードする</li>
       </ul>
     </div>
   </div>
@@ -148,12 +148,24 @@
         <div><h3>ピンでコメント</h3><p>クリックした箇所にピンとコメント欄が表示される。</p></div>
       </div>
       <div class="feat-card">
+        <div class="feat-icon">✋</div>
+        <div><h3>ピンをドラッグ移動</h3><p>自分が立てたピンをドラッグして位置を調整できる。</p></div>
+      </div>
+      <div class="feat-card">
         <div class="feat-icon">📱</div>
         <div><h3>PC・モバイル切替</h3><p>ボタン一つでスマホ幅に切替。コメントは別管理。</p></div>
       </div>
       <div class="feat-card">
+        <div class="feat-icon">📐</div>
+        <div><h3>幅固定オプション</h3><p>📐 幅固定ボタンでPC 1366px / Mobile 390px に統一。全員が同じ幅で確認できる。</p></div>
+      </div>
+      <div class="feat-card">
         <div class="feat-icon">🚦</div>
         <div><h3>4段階ステータス</h3><p>未対応→対応済→確認完了。差し戻しにも対応。</p></div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">💬</div>
+        <div><h3>返信（スレッド）</h3><p>コメントに返信してスレッド形式でやりとりできる。</p></div>
       </div>
       <div class="feat-card">
         <div class="feat-icon">@</div>
@@ -161,7 +173,7 @@
       </div>
       <div class="feat-card">
         <div class="feat-icon">🖼</div>
-        <div><h3>画像添付</h3><p>参考画像をコメントに添付できる。</p></div>
+        <div><h3>ファイル添付</h3><p>画像・ファイルをコメントに添付できる（最大10MB）。</p></div>
       </div>
       <div class="feat-card">
         <div class="feat-icon">🔒</div>
@@ -176,20 +188,32 @@
   <div class="section">
     <h2>バージョン履歴</h2>
     <div class="cl-item">
-      <div class="cl-ver">v1.2.1</div>
-      <div class="cl-notes">バグ修正・コメント主のみ削除可・キャッシュ最適化</div>
+      <div class="cl-ver">v1.7.0</div>
+      <div class="cl-notes">固定幅をオプション化（📐 幅固定ボタンで任意にON/OFF）・PC固定幅を1366pxに変更</div>
     </div>
     <div class="cl-item">
-      <div class="cl-ver">v1.1.2</div>
-      <div class="cl-notes">ツールバーUI改善・ステータス別件数表示</div>
+      <div class="cl-ver">v1.6.0</div>
+      <div class="cl-notes">全員が同じ幅で見る固定幅方式を導入・ピンをドラッグで移動できる機能を追加</div>
     </div>
     <div class="cl-item">
-      <div class="cl-ver">v1.1.1</div>
-      <div class="cl-notes">コメント送信バグ修正</div>
+      <div class="cl-ver">v1.5.0</div>
+      <div class="cl-notes">ピン位置ずれをさらに改善（テキストアンカー方式・セマンティックコンテナ内%方式を追加）</div>
     </div>
     <div class="cl-item">
-      <div class="cl-ver">v1.1.0</div>
-      <div class="cl-notes">ステータス4段階化・リアルタイム更新通知・UIデザイン改善</div>
+      <div class="cl-ver">v1.4.0</div>
+      <div class="cl-notes">ピン位置が画面幅によってずれる問題を修正（指紋方式・見出しアンカー比率化）</div>
+    </div>
+    <div class="cl-item">
+      <div class="cl-ver">v1.3.0</div>
+      <div class="cl-notes">コメント削除・新着通知確認後のキャッシュ不整合を修正</div>
+    </div>
+    <div class="cl-item">
+      <div class="cl-ver">v1.2.x</div>
+      <div class="cl-notes">ポップアップ廃止・名前インライン編集・全コメント削除・ファイル添付・CSP対応・各種バグ修正</div>
+    </div>
+    <div class="cl-item">
+      <div class="cl-ver">v1.1.x</div>
+      <div class="cl-notes">ピン位置の要素基準保存・右下アンカーナビ・ステータス別件数表示</div>
     </div>
     <div class="cl-item">
       <div class="cl-ver">v1.0.0</div>
@@ -205,6 +229,8 @@
     .then(r => r.json())
     .then(data => {
       document.getElementById('version-badge').textContent = '最新バージョン v' + data.version;
+      const btn = document.getElementById('dl-btn');
+      if (data.download) btn.href = data.download;
     })
     .catch(() => { document.getElementById('version-badge').textContent = ''; });
 </script>
