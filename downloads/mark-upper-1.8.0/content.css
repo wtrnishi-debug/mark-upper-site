@@ -1,0 +1,508 @@
+/* ツールバー */
+#mu-toolbar {
+  all: initial;
+  position: fixed !important;
+  top: 0 !important; left: 0 !important; right: 0 !important;
+  height: 48px !important;
+  background: #1a1a2e !important;
+  color: white !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 16px !important;
+  z-index: 2147483647 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-size: 13px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.3) !important;
+  box-sizing: border-box !important;
+}
+#mu-toolbar * { font-family: inherit !important; box-sizing: border-box !important; }
+
+.mu-left, .mu-right { display: flex !important; align-items: center !important; gap: 10px !important; }
+.mu-center {
+  position: absolute !important; left: 50% !important; transform: translateX(-50%) !important;
+  display: flex !important; align-items: center !important; gap: 8px !important;
+}
+.mu-logo { font-weight: 700 !important; font-size: 15px !important; color: #a78bfa !important; }
+.mu-user-btn {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  color: #94a3b8 !important;
+  font-size: 12px !important;
+  cursor: pointer !important;
+  padding: 2px 7px !important;
+  font-family: inherit !important;
+  transition: border-color .15s, color .15s !important;
+  line-height: 1.4 !important;
+}
+.mu-user-btn:hover {
+  border-color: #475569 !important;
+  color: #e2e8f0 !important;
+}
+.mu-name-inp {
+  background: #1e293b !important;
+  border: 1px solid #7c3aed !important;
+  border-radius: 4px !important;
+  color: white !important;
+  font-size: 12px !important;
+  padding: 2px 7px !important;
+  outline: none !important;
+  font-family: inherit !important;
+  width: 150px !important;
+  line-height: 1.4 !important;
+}
+.mu-clr-btn {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  color: #64748b !important;
+  font-size: 11px !important;
+  cursor: pointer !important;
+  padding: 3px 8px !important;
+  line-height: 1.4 !important;
+  font-family: inherit !important;
+  white-space: nowrap !important;
+  transition: background .15s, color .15s !important;
+}
+.mu-clr-btn:hover { background: #dc2626 !important; color: white !important; }
+
+.mu-btn {
+  padding: 5px 12px !important; border: none !important; border-radius: 6px !important;
+  cursor: pointer !important; font-size: 12px !important; font-weight: 500 !important;
+  line-height: 1.4 !important; white-space: nowrap !important;
+}
+.mu-seg {
+  display: flex !important;
+  background: #334155 !important;
+  border-radius: 6px !important;
+  padding: 3px !important;
+  gap: 2px !important;
+}
+.mu-seg-btn {
+  padding: 3px 10px !important; border: none !important; border-radius: 4px !important;
+  cursor: pointer !important; font-size: 12px !important; font-weight: 500 !important;
+  white-space: nowrap !important; line-height: 1.4 !important;
+  background: transparent !important; color: #94a3b8 !important; transition: all .15s !important;
+}
+.mu-seg-btn.mu-seg-on { background: white !important; color: #1e293b !important; }
+.mu-seg-btn:not(.mu-seg-on):hover { color: white !important; }
+.mu-fixw-btn {
+  padding: 5px 12px !important; background: #334155 !important; color: #94a3b8 !important;
+}
+.mu-fixw-btn.mu-seg-on { background: #7c3aed !important; color: white !important; }
+.mu-fixw-btn:not(.mu-seg-on):hover { color: white !important; }
+.mu-mode-lbl {
+  color: #a78bfa !important; font-size: 12px !important;
+  white-space: nowrap !important; letter-spacing: .01em !important;
+}
+.mu-off-btn { background: #475569 !important; color: #cbd5e1 !important; }
+.mu-off-btn:hover { background: #dc2626 !important; color: white !important; }
+.mu-notify-btn { background: #f59e0b !important; color: #1a1a2e !important; font-weight: 700 !important; }
+.mu-notify-btn:hover { background: #d97706 !important; }
+.mu-counts { display: flex !important; align-items: center !important; gap: 8px !important; }
+.mu-ci {
+  font-size: 11px !important; font-weight: 700 !important;
+  padding: 2px 7px !important; border-radius: 9999px !important; white-space: nowrap !important;
+}
+.mu-ci-open     { background: #fecaca !important; color: #b91c1c !important; }
+.mu-ci-fixed    { background: #bfdbfe !important; color: #1d4ed8 !important; }
+.mu-ci-rejected { background: #fed7aa !important; color: #c2410c !important; }
+.mu-ci-verified { background: #d1fae5 !important; color: #059669 !important; }
+
+/* オーバーレイ（ピンの土台） */
+#mu-overlay {
+  position: absolute !important;
+  top: 0 !important; left: 0 !important;
+  width: 100% !important;
+  min-height: 100% !important;
+  pointer-events: none !important;
+  z-index: 2147483644 !important;
+}
+#mu-overlay.mu-cross { pointer-events: all !important; cursor: crosshair !important; }
+#mu-overlay.mu-pop-open { pointer-events: all !important; cursor: default !important; }
+
+/* ピン */
+.mu-pin {
+  position: absolute !important;
+  width: 30px !important; height: 30px !important;
+  border-radius: 50% 50% 50% 0 !important;
+  transform: translate(-15px, -30px) rotate(-45deg) !important;
+  cursor: pointer !important;
+  pointer-events: all !important;
+  border: 2px solid white !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.4) !important;
+  display: flex !important; align-items: center !important; justify-content: center !important;
+  transition: transform .15s !important;
+  z-index: 1 !important;
+}
+.mu-pin:hover { transform: translate(-15px, -35px) rotate(-45deg) scale(1.1) !important; }
+.mu-pin.mu-sel { transform: translate(-15px, -35px) rotate(-45deg) scale(1.15) !important; z-index: 2 !important; }
+.mu-pin-open, .mu-pin-unread, .mu-pin-read { background: #ef4444 !important; }
+.mu-pin-fixed    { background: #3b82f6 !important; }
+.mu-pin-verified, .mu-pin-done { background: #10b981 !important; }
+.mu-pin-rejected { background: #f97316 !important; }
+.mu-pnum {
+  transform: rotate(45deg) !important;
+  color: white !important; font-size: 10px !important;
+  font-weight: 700 !important; font-family: monospace !important; line-height: 1 !important;
+}
+/* 自分のコメントのピン：ドラッグで移動できることを示す */
+.mu-pin.mu-draggable { cursor: grab !important; }
+.mu-pin.mu-dragging {
+  cursor: grabbing !important;
+  transition: none !important;
+  opacity: .85 !important;
+  z-index: 3 !important;
+}
+
+/* ポップオーバー（吹き出し） */
+.mu-pop {
+  position: absolute !important;
+  width: 300px !important;
+  background: white !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 28px rgba(0,0,0,.18) !important;
+  border: 1px solid #e2e8f0 !important;
+  z-index: 2147483646 !important;
+  pointer-events: all !important;
+  overflow: hidden !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-size: 13px !important;
+  color: #1e293b !important;
+}
+.mu-pop * { box-sizing: border-box !important; font-family: inherit !important; }
+
+.mu-pop-hdr {
+  display: flex !important; justify-content: space-between !important; align-items: center !important;
+  padding: 10px 14px !important;
+  background: #f8fafc !important; border-bottom: 1px solid #e2e8f0 !important;
+}
+.mu-pop-ttl { font-weight: 600 !important; font-size: 13px !important; color: #1e293b !important; }
+.mu-hdr-left { display: flex !important; align-items: center !important; gap: 8px !important; }
+.mu-hdr-st {
+  padding: 3px 10px !important; border-radius: 9999px !important;
+  font-size: 12px !important; font-weight: 700 !important;
+}
+.mu-pop-x {
+  background: none !important; border: none !important; cursor: pointer !important;
+  color: #94a3b8 !important; font-size: 15px !important; line-height: 1 !important; padding: 0 4px !important;
+}
+.mu-pop-x:hover { color: #1e293b !important; }
+
+.mu-pop-body {
+  padding: 8px 12px 10px !important;
+  display: flex !important; flex-direction: column !important; gap: 5px !important;
+}
+
+.mu-pop-scroll {
+  max-height: 420px !important; overflow-y: auto !important;
+  padding: 12px !important;
+  display: flex !important; flex-direction: column !important; gap: 10px !important;
+}
+
+/* カード */
+.mu-main-card {
+  background: #f8fafc !important; border-radius: 8px !important;
+  padding: 10px 12px !important; border-left: 3px solid #7c3aed !important;
+  border: 1px solid #e2e8f0 !important; border-left: 3px solid #7c3aed !important;
+}
+.mu-reply-card {
+  background: #f8fafc !important; border-radius: 8px !important;
+  padding: 8px 10px !important;
+  border: 1px solid #e2e8f0 !important; border-left: 3px solid #cbd5e1 !important;
+  font-size: 12px !important;
+}
+.mu-replies { display: flex !important; flex-direction: column !important; gap: 6px !important; margin-left: 8px !important; }
+.mu-rform { border-top: 1px solid #f1f5f9 !important; padding-top: 8px !important; display: flex !important; flex-direction: column !important; gap: 4px !important; }
+
+.mu-meta {
+  display: flex !important; align-items: center !important;
+  gap: 6px !important; margin-bottom: 5px !important; flex-wrap: wrap !important;
+}
+.mu-author { font-weight: 600 !important; color: #1e293b !important; font-size: 12px !important; }
+.mu-to { color: #7c3aed !important; font-size: 11px !important; }
+.mu-st {
+  padding: 2px 7px !important; border-radius: 9999px !important;
+  font-size: 10px !important; font-weight: 700 !important; margin-left: auto !important;
+}
+.mu-st-open     { background: #fee2e2 !important; color: #dc2626 !important; }
+.mu-st-fixed    { background: #dbeafe !important; color: #1d4ed8 !important; }
+.mu-st-verified { background: #d1fae5 !important; color: #059669 !important; }
+.mu-st-rejected { background: #ffedd5 !important; color: #c2410c !important; }
+
+.mu-text {
+  color: #334155 !important; line-height: 1.55 !important;
+  white-space: pre-wrap !important; word-break: break-word !important; font-size: 13px !important;
+}
+.mu-imgs { display: flex !important; gap: 6px !important; flex-wrap: wrap !important; margin-top: 6px !important; }
+.mu-cimg {
+  width: 70px !important; height: 52px !important; object-fit: cover !important;
+  border-radius: 4px !important; cursor: pointer !important; border: 1px solid #e2e8f0 !important;
+  display: block !important;
+}
+.mu-acts { display: flex !important; gap: 6px !important; margin-top: 8px !important; flex-wrap: wrap !important; }
+
+.mu-st-btn {
+  border: 1px solid transparent !important; border-radius: 5px !important;
+  padding: 4px 10px !important; font-size: 11px !important; cursor: pointer !important;
+  display: inline-block !important; font-weight: 500 !important;
+}
+.mu-st-to-fixed    { background: #dbeafe !important; color: #1d4ed8 !important; border-color: #bfdbfe !important; }
+.mu-st-to-verified { background: #d1fae5 !important; color: #059669 !important; border-color: #a7f3d0 !important; }
+.mu-st-to-rejected { background: #ffedd5 !important; color: #c2410c !important; border-color: #fed7aa !important; }
+.mu-st-to-open     { background: #fee2e2 !important; color: #dc2626 !important; border-color: #fca5a5 !important; }
+
+.mu-del-btn {
+  background: #475569 !important; color: #cbd5e1 !important;
+  border: none !important; border-radius: 5px !important;
+  padding: 4px 10px !important; font-size: 11px !important; cursor: pointer !important;
+  display: inline-block !important; margin-left: auto !important;
+}
+.mu-del-btn:hover { background: #334155 !important; color: white !important; }
+
+/* フォーム共通 */
+.mu-ta {
+  width: 100% !important; min-height: 68px !important;
+  padding: 8px !important; border: 1px solid #e2e8f0 !important; border-radius: 6px !important;
+  font-size: 13px !important; resize: vertical !important;
+  color: #1e293b !important; background: white !important;
+  outline: none !important; display: block !important; line-height: 1.5 !important;
+}
+.mu-ta:focus { border-color: #7c3aed !important; }
+
+.mu-dd {
+  background: white !important; border: 1px solid #e2e8f0 !important;
+  border-radius: 6px !important; display: none !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,.1) !important; max-height: 120px !important; overflow-y: auto !important;
+}
+.mu-mi { padding: 7px 12px !important; cursor: pointer !important; font-size: 13px !important; color: #334155 !important; }
+.mu-mi:hover { background: #f1f5f9 !important; }
+
+.mu-prev { display: flex !important; flex-wrap: wrap !important; gap: 6px !important; }
+.mu-thumb img {
+  width: 56px !important; height: 42px !important; object-fit: cover !important;
+  border-radius: 4px !important; border: 1px solid #e2e8f0 !important; display: block !important;
+}
+.mu-file-link { text-decoration: none !important; display: inline-block !important; }
+.mu-file-thumb {
+  width: 56px !important; height: 42px !important;
+  background: #f1f5f9 !important; border: 1px solid #e2e8f0 !important;
+  border-radius: 4px !important; display: flex !important; flex-direction: column !important;
+  align-items: center !important; justify-content: center !important;
+  gap: 3px !important; overflow: hidden !important; padding: 3px !important;
+}
+.mu-file-ext {
+  font-size: 9px !important; font-weight: 700 !important; color: white !important;
+  background: #64748b !important; padding: 1px 4px !important;
+  border-radius: 2px !important; letter-spacing: .03em !important;
+}
+.mu-file-name {
+  font-size: 8px !important; color: #64748b !important; text-align: center !important;
+  width: 100% !important; overflow: hidden !important; text-overflow: ellipsis !important;
+  white-space: nowrap !important; padding: 0 2px !important;
+}
+
+.mu-fa { display: flex !important; gap: 8px !important; justify-content: flex-end !important; align-items: center !important; }
+.mu-fa .mu-btn {
+  height: 30px !important; padding: 0 12px !important; box-sizing: border-box !important;
+  display: inline-flex !important; align-items: center !important; justify-content: center !important;
+}
+.mu-img-btn {
+  background: #f1f5f9 !important; color: #334155 !important;
+  border: 1px solid #e2e8f0 !important; cursor: pointer !important;
+}
+.mu-sub { background: #7c3aed !important; color: white !important; }
+.mu-sub:hover { background: #6d28d9 !important; }
+.mu-sub:disabled { background: #a78bfa !important; cursor: not-allowed !important; }
+.mu-err { color: #dc2626 !important; font-size: 12px !important; min-height: 0 !important; }
+
+/* カーソル近くのアラート */
+.mu-cursor-alert {
+  position: absolute !important;
+  background: #1e293b !important;
+  color: #fde68a !important;
+  padding: 6px 12px !important;
+  border-radius: 7px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+  z-index: 2147483647 !important;
+  box-shadow: 0 3px 10px rgba(0,0,0,.3) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  animation: mu-alert-fade 2.5s ease forwards !important;
+}
+@keyframes mu-alert-fade {
+  0%   { opacity: 0; transform: translateY(6px); }
+  12%  { opacity: 1; transform: translateY(0); }
+  72%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-6px); }
+}
+
+/* アンカーナビ（右下固定） */
+#mu-nav {
+  position: fixed !important;
+  bottom: 16px !important;
+  right: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 4px !important;
+  z-index: 2147483648 !important;
+  max-height: calc(100vh - 72px) !important;
+  overflow-y: auto !important;
+  padding: 2px !important;
+}
+.mu-nb {
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 50% !important;
+  border: 2px solid rgba(255,255,255,.85) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  font-family: monospace !important;
+  color: white !important;
+  cursor: pointer !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,.35) !important;
+  transition: transform .12s !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.mu-nb:hover { transform: scale(1.2) !important; }
+.mu-nb-open     { background: #ef4444 !important; }
+.mu-nb-fixed    { background: #3b82f6 !important; }
+.mu-nb-verified { background: #10b981 !important; }
+.mu-nb-rejected { background: #f97316 !important; }
+
+/* サイドバーモード */
+#mu-toolbar.mu-toolbar-side {
+  all: initial;
+  position: fixed !important;
+  top: 0 !important; left: 0 !important; bottom: 0 !important;
+  width: 52px !important;
+  background: #0f172a !important;
+  color: white !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  padding: 8px 0 !important;
+  z-index: 2147483647 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-size: 13px !important;
+  box-shadow: 2px 0 8px rgba(0,0,0,.3) !important;
+  box-sizing: border-box !important;
+  gap: 2px !important;
+}
+#mu-toolbar.mu-toolbar-side * { font-family: inherit !important; box-sizing: border-box !important; }
+
+.mu-side-logo {
+  font-weight: 800 !important;
+  font-size: 11px !important;
+  color: #a78bfa !important;
+  letter-spacing: .05em !important;
+  height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+.mu-side-btn {
+  position: relative !important;
+  width: 40px !important;
+  height: 36px !important;
+  border: none !important;
+  background: transparent !important;
+  color: #94a3b8 !important;
+  font-size: 16px !important;
+  cursor: pointer !important;
+  border-radius: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background .15s, color .15s !important;
+  flex-shrink: 0 !important;
+}
+.mu-side-btn:hover { background: #1e293b !important; color: white !important; }
+.mu-side-btn.mu-side-on { background: #7c3aed !important; color: white !important; }
+.mu-side-off:hover { background: #dc2626 !important; color: white !important; }
+.mu-side-clr:hover { background: #475569 !important; color: white !important; }
+
+.mu-side-btn::after {
+  content: attr(data-label) !important;
+  position: fixed !important;
+  left: 56px !important;
+  background: #0f172a !important;
+  color: white !important;
+  padding: 4px 10px !important;
+  border-radius: 5px !important;
+  font-size: 12px !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  transition: opacity .1s !important;
+  z-index: 2147483648 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.3) !important;
+  font-weight: 500 !important;
+}
+.mu-side-btn:hover::after { opacity: 1 !important; }
+
+.mu-side-sep {
+  width: 30px !important;
+  height: 1px !important;
+  background: #1e293b !important;
+  margin: 4px 0 !important;
+  flex-shrink: 0 !important;
+}
+.mu-side-spacer { flex: 1 !important; }
+
+.mu-side-counts {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 3px !important;
+  width: 100% !important;
+}
+.mu-side-badge {
+  width: 28px !important;
+  height: 20px !important;
+  border-radius: 10px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  color: white !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: default !important;
+}
+.mu-side-badge-open     { background: #ef4444 !important; }
+.mu-side-badge-fixed    { background: #3b82f6 !important; }
+.mu-side-badge-rejected { background: #f97316 !important; }
+.mu-side-badge-verified { background: #10b981 !important; }
+
+/* 名前編集フローティングパネル（サイドモード） */
+.mu-name-panel {
+  position: fixed !important;
+  left: 56px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  background: #0f172a !important;
+  border: 1px solid #334155 !important;
+  border-radius: 8px !important;
+  padding: 8px !important;
+  z-index: 2147483648 !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,.4) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+.mu-name-panel * { box-sizing: border-box !important; font-family: inherit !important; }
+.mu-name-panel .mu-name-inp { width: 160px !important; }
+.mu-name-panel .mu-btn { height: 28px !important; padding: 0 12px !important; font-size: 12px !important; white-space: nowrap !important; }
+
+/* ⇄ 切り替えボタン（横モード） */
+.mu-switch-btn { background: #334155 !important; color: #94a3b8 !important; font-size: 14px !important; padding: 4px 10px !important; }
+.mu-switch-btn:hover { background: #475569 !important; color: white !important; }

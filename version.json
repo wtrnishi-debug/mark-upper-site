@@ -1,5 +1,5 @@
 {
-  "version": "1.7.0",
-  "notes": "固定幅をオプション化（📐 幅固定ボタンで任意にON/OFF）・固定幅をPC 1366px に変更",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.7.0.zip"
+  "version": "1.8.0",
+  "notes": "UIレイアウト切り替え機能追加（⇄ボタンで横ツールバー↔左縦サイドバーをいつでも切り替え可能）",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-1.8.0.zip"
 }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div id="update-banner" style="display:none">
+    <span id="update-text"></span>
+    <a id="update-link" href="#" target="_blank">ダウンロード</a>
+    <button id="update-dismiss">✕</button>
+  </div>
+
+  <div class="header">
+    <span class="logo">Mark Upper</span>
+  </div>
+
+  <div id="name-screen">
+    <p class="label">あなたの名前を入力してください</p>
+    <input type="text" id="name-input" placeholder="例：田中" maxlength="20">
+    <button class="btn btn-primary" id="name-save">はじめる</button>
+  </div>
+
+  <div id="main-screen" style="display:none">
+    <div class="user-row">
+      <span id="username-disp"></span>
+      <button class="btn btn-sm" id="name-change">変更</button>
+    </div>
+
+    <div class="device-row">
+      <button class="dev-btn" id="pc-btn">💻 PC</button>
+      <button class="dev-btn" id="mobile-btn">📱 Mobile</button>
+    </div>
+
+    <button class="btn btn-primary btn-full" id="toggle-btn">コメントモードをONにする</button>
+
+    <div class="count-row">このページのコメント：<strong id="count">—</strong></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
