@@ -1,5 +1,5 @@
 {
-  "version": "2.19.6",
-  "notes": "コメントピンのドラッグ移動に対応（自分のピンをつかんで位置を変更可能）",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.19.6.zip"
+  "version": "2.19.7",
+  "notes": "ピン位置・コメント欄位置の座標ずれを修正、サイト一覧をMU終了時に自動で閉じるよう修正",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.19.7.zip"
 }
