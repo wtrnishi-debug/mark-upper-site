@@ -1,5 +1,5 @@
 {
-  "version": "2.15.0",
-  "notes": "Mobile時のツールバーボタン重なり・非表示を修正（クラス切替方式に変更）",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.15.0.zip"
+  "version": "2.16.0",
+  "notes": "コメント一覧にサイト名表示・「全サイト」タブで自分のコメントサイト一覧を表示",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.16.0.zip"
 }
