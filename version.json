@@ -1,5 +1,5 @@
 {
-  "version": "2.10.2",
-  "notes": "Supabase共有セッション対応・URLコピー共有ボタン追加",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.10.2.zip"
+  "version": "2.11.0",
+  "notes": "ライト/ダークテーマ・コメント一覧パネル・ビューポート記録・アップデート通知など多数の機能追加",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.11.0.zip"
 }
