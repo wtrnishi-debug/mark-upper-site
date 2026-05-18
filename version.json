@@ -1,5 +1,5 @@
 {
-  "version": "2.16.0",
-  "notes": "コメント一覧にサイト名表示・「全サイト」タブで自分のコメントサイト一覧を表示",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.16.0.zip"
+  "version": "2.17.0",
+  "notes": "PC/Mobile切替をウィンドウリサイズなしのCSS仮想ビューポート方式に変更（1366px/375px、縮小・中央配置）",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.17.0.zip"
 }
