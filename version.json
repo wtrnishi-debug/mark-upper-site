@@ -1,5 +1,5 @@
 {
-  "version": "2.11.1",
-  "notes": "ライト/ダークテーマ・コメント一覧パネル・ビューポート記録・アップデート通知など多数の機能追加（ライトテーマ時のアップデートピル色修正）",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.11.1.zip"
+  "version": "2.12.0",
+  "notes": "起動・PC/Mobile切替時に自動リサイズ（PC 1366×768 / Mobile 375×667）・左下に「正確なコメント位置を確認」ボタン追加",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.12.0.zip"
 }
