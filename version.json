@@ -1,5 +1,5 @@
 {
-  "version": "2.12.0",
-  "notes": "起動・PC/Mobile切替時に自動リサイズ（PC 1366×768 / Mobile 375×667）・左下に「正確なコメント位置を確認」ボタン追加",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.12.0.zip"
+  "version": "2.13.0",
+  "notes": "Mobile時にDevTools相当の仮想ビューポート（375×667）を適用・「正確なコメント位置を確認」ボタンをツールバー中央に移動",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.13.0.zip"
 }
