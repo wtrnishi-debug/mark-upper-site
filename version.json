@@ -1,5 +1,5 @@
 {
-  "version": "2.13.0",
-  "notes": "Mobile時にDevTools相当の仮想ビューポート（375×667）を適用・「正確なコメント位置を確認」ボタンをツールバー中央に移動",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.13.0.zip"
+  "version": "2.14.0",
+  "notes": "Mobile幅でのツールバーボタン省スペース化・PC切替時のウィンドウ画面外はみ出し修正",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.14.0.zip"
 }
