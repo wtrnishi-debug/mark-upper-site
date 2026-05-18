@@ -1,5 +1,5 @@
 {
-  "version": "2.19.0",
-  "notes": "「正確なコメント位置確認」ボタン削除・仮想ビューポートをドラッグでリサイズ・全サイト一覧モーダル追加（ツールバー「サイト」ボタン）・パネルヘッダーのサイト名/ラベルサイズ修正",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.19.0.zip"
+  "version": "2.19.1",
+  "notes": "仮想ビューポートの縦幅をウィンドウに合わせてmin-height設定・左右に隙間（12px）を追加しハンドルを掴みやすく改善",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.19.1.zip"
 }
