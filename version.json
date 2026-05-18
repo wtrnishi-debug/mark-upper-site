@@ -1,5 +1,5 @@
 {
-  "version": "2.19.1",
-  "notes": "仮想ビューポートの縦幅をウィンドウに合わせてmin-height設定・左右に隙間（12px）を追加しハンドルを掴みやすく改善",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.19.1.zip"
+  "version": "2.19.2",
+  "notes": "仮想ビューポートの下端に余白追加・キャンバス背景色をツールバーとより差をつけた色に変更",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.19.2.zip"
 }
