@@ -146,7 +146,7 @@
       background: #ede9fe; padding: 1px 6px; border-radius: 3px;
     }
     .manual-img-placeholder .ph-note { font-size: 10px; color: #94a3b8; text-align: center; line-height: 1.5; }
-    .manual-img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .manual-img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain; object-position: center center; display: block; }
     .manual-card-body { padding: 10px 12px 12px; }
     .manual-step-num {
       display: inline-flex; align-items: center; justify-content: center;
@@ -332,10 +332,10 @@
           <div class="manual-img-wrap">
             <div class="manual-img-placeholder">
               <span class="ph-icon">📷</span>
-              <span class="manual-img-filename">images/manual-05-device.png</span>
+              <span class="manual-img-filename">images/manual-05-device.jpg</span>
               <span class="ph-note">PC/Mobileボタンで切替えた状態<br>スマホ幅（390px）に変わった画面</span>
             </div>
-            <img src="images/manual-05-device.png" class="manual-img" alt="PC/モバイル切替" onerror="this.style.display='none'">
+            <img src="images/manual-05-device.jpg" class="manual-img" alt="PC/モバイル切替" onerror="this.style.display='none'">
           </div>
           <div class="manual-card-body">
             <div class="manual-step-num">5</div>
@@ -423,6 +423,7 @@
       <button class="modal-close" onclick="closeModal('modal-changelog')">✕</button>
     </div>
     <div class="modal-body">
+      <div class="cl-item"><div class="cl-ver">v2.15.0</div><div class="cl-notes">Mobile時のツールバーボタン重なり・非表示を修正（クラス切替方式に変更）</div></div>
       <div class="cl-item"><div class="cl-ver">v2.14.0</div><div class="cl-notes">Mobile幅でのツールバーボタン省スペース化・PC切替時のウィンドウ画面外はみ出し修正</div></div>
       <div class="cl-item"><div class="cl-ver">v2.13.0</div><div class="cl-notes">Mobile時にDevTools相当の仮想ビューポート（375×667）を適用・「正確なコメント位置を確認」ボタンをツールバー中央に移動</div></div>
       <div class="cl-item"><div class="cl-ver">v2.12.0</div><div class="cl-notes">起動・PC/Mobile切替時に自動リサイズ（PC 1366×768 / Mobile 375×667）・左下に「正確なコメント位置を確認」ボタン追加</div></div>
