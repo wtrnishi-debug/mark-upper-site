@@ -1,5 +1,5 @@
 {
-  "version": "2.19.3",
-  "notes": "仮想ビューポートに下ハンドル・コーナーハンドルを追加（右・下・コーナーからリサイズ可能）・ハンドルにグリップドット表示",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.19.3.zip"
+  "version": "2.19.4",
+  "notes": "仮想ビューポートの下ハンドルを自由に動かせるよう修正（min-height廃止・高さ制限撤廃）",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.19.4.zip"
 }
