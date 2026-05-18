@@ -1,5 +1,5 @@
 {
-  "version": "2.18.0",
-  "notes": "仮想ビューポートのパネル非干渉・幅/スケール入力バー追加・全サイト一覧ページ（sites.html）新設",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.18.0.zip"
+  "version": "2.19.0",
+  "notes": "「正確なコメント位置確認」ボタン削除・仮想ビューポートをドラッグでリサイズ・全サイト一覧モーダル追加（ツールバー「サイト」ボタン）・パネルヘッダーのサイト名/ラベルサイズ修正",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.19.0.zip"
 }
