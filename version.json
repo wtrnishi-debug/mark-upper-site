@@ -1,5 +1,5 @@
 {
-  "version": "2.19.2",
-  "notes": "仮想ビューポートの下端に余白追加・キャンバス背景色をツールバーとより差をつけた色に変更",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.19.2.zip"
+  "version": "2.19.3",
+  "notes": "仮想ビューポートに下ハンドル・コーナーハンドルを追加（右・下・コーナーからリサイズ可能）・ハンドルにグリップドット表示",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.19.3.zip"
 }
