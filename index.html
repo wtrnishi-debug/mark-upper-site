@@ -6,15 +6,37 @@
   <title>Mark Upper — Webサイト修正指示ツール</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Segoe UI', sans-serif; color: #1e293b; background: #f8fafc; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Segoe UI', sans-serif;
+      color: #1e293b;
+      background: #f8fafc;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
     a { color: #7c3aed; text-decoration: none; }
     a:hover { text-decoration: underline; }
+    code { background: #e8edf4; padding: 1px 5px; border-radius: 3px; font-family: monospace; font-size: 11px; color: #7c3aed; }
 
-    header { background: #1a1a2e; padding: 14px 32px; display: flex; align-items: center; gap: 12px; }
+    /* ── ヘッダー ── */
+    header {
+      background: #1a1a2e; padding: 14px 32px;
+      display: flex; align-items: center; gap: 12px;
+      flex-shrink: 0;
+    }
     .logo { font-size: 20px; font-weight: 700; color: #a78bfa; letter-spacing: -0.5px; }
     .logo-sub { font-size: 12px; color: #64748b; }
 
-    .hero { background: linear-gradient(135deg, #1a1a2e 0%, #2d1b69 100%); color: white; text-align: center; padding: 48px 24px 56px; }
+    /* ── ヒーロー ── */
+    .hero {
+      background: linear-gradient(135deg, #1a1a2e 0%, #2d1b69 100%);
+      color: white; text-align: center;
+      flex: 1;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 32px 24px 24px;
+    }
     .hero h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; }
     .hero p { font-size: 14px; color: #c4b5fd; margin-bottom: 28px; line-height: 1.7; }
     .dl-btn {
@@ -25,71 +47,89 @@
     .dl-btn:hover { background: #6d28d9; transform: translateY(-2px); text-decoration: none; }
     .version-badge { display: block; margin-top: 12px; font-size: 12px; color: #94a3b8; }
 
-    /* バージョンが上がったら（コンパクト帯） */
+    /* ── モーダル起動ボタン帯 ── */
+    .modal-triggers {
+      display: flex; justify-content: center; gap: 8px;
+      padding: 14px 24px;
+      background: #1a1a2e;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .modal-btn {
+      background: transparent; border: 1px solid #334155;
+      border-radius: 20px; padding: 6px 16px;
+      font-size: 12px; font-weight: 600; color: #94a3b8;
+      cursor: pointer; transition: all .15s; font-family: inherit;
+    }
+    .modal-btn:hover { border-color: #a78bfa; color: #a78bfa; }
+
+    /* ── バージョンが上がったら帯 ── */
     .update-strip {
-      background: #f1f5f9; border-bottom: 1px solid #e2e8f0;
-      padding: 10px 24px; display: flex; align-items: center; gap: 10px;
+      background: #f1f5f9; border-top: 1px solid #e2e8f0;
+      padding: 10px 24px;
+      display: flex; align-items: center; gap: 10px;
       flex-wrap: wrap; justify-content: center;
-    }
-    .update-strip-label {
-      font-size: 12px; font-weight: 700; color: #475569; white-space: nowrap;
-    }
-    .update-strip-steps {
-      display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
-    }
-    .update-strip-step {
-      font-size: 12px; color: #64748b; display: flex; align-items: center; gap: 4px;
-    }
-    .update-strip-step .n {
-      font-weight: 700; color: #7c3aed;
-    }
-    .update-strip-arrow { font-size: 11px; color: #94a3b8; }
-    code { background: #e8edf4; padding: 1px 5px; border-radius: 3px; font-family: monospace; font-size: 11px; color: #7c3aed; }
-
-    .section { max-width: 720px; margin: 0 auto; padding: 48px 24px; }
-    .section-white { background: white; }
-    .section-white .section { max-width: 720px; margin: 0 auto; padding: 48px 24px; }
-    h2 { font-size: 20px; font-weight: 700; margin-bottom: 24px; color: #1e293b; }
-
-    /* バージョン履歴 */
-    .cl-item { display: flex; gap: 16px; padding: 12px 0; border-bottom: 1px solid #f1f5f9; align-items: baseline; }
-    .cl-item:last-child { border-bottom: none; }
-    .cl-ver { font-weight: 700; font-size: 13px; color: #7c3aed; white-space: nowrap; width: 54px; flex-shrink: 0; }
-    .cl-notes { font-size: 13px; color: #334155; }
-
-    /* インストール */
-    .steps { display: flex; flex-direction: column; }
-    .step { display: flex; gap: 16px; padding: 14px 0; border-bottom: 1px solid #f1f5f9; }
-    .step:last-child { border-bottom: none; }
-    .step-num {
-      width: 28px; height: 28px; border-radius: 50%; background: #7c3aed; color: white;
-      font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
-    .step-content h3 { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
-    .step-content p { font-size: 13px; color: #64748b; line-height: 1.6; }
+    .update-strip-label { font-size: 12px; font-weight: 700; color: #475569; white-space: nowrap; }
+    .update-strip-steps { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .update-strip-step { font-size: 12px; color: #64748b; display: flex; align-items: center; gap: 4px; }
+    .update-strip-step .n { font-weight: 700; color: #7c3aed; }
+    .update-strip-arrow { font-size: 11px; color: #94a3b8; }
 
-    /* できること */
-    .feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
-    .feat-card { background: white; border-radius: 8px; padding: 16px; border: 1px solid #e2e8f0; display: flex; gap: 12px; align-items: flex-start; }
-    .feat-icon { font-size: 20px; flex-shrink: 0; }
-    .feat-card h3 { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
-    .feat-card p { font-size: 12px; color: #64748b; line-height: 1.5; }
-
-    /* 使用マニュアル */
-    .manual-section { max-width: 860px; margin: 0 auto; padding: 48px 24px; }
-    .manual-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+    /* ── モーダル共通 ── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,.55);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s;
     }
-    @media (max-width: 560px) {
-      .manual-grid { grid-template-columns: 1fr; }
-    }
-    .manual-card {
-      background: white; border: 1px solid #e2e8f0; border-radius: 10px;
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .modal {
+      background: white; border-radius: 12px;
+      width: 100%; max-width: 700px;
+      max-height: 85vh;
+      display: flex; flex-direction: column;
+      transform: translateY(12px);
+      transition: transform .2s;
       overflow: hidden;
     }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal-hdr {
+      padding: 18px 20px 16px; border-bottom: 1px solid #f1f5f9;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .modal-hdr h2 { font-size: 17px; font-weight: 700; color: #1e293b; }
+    .modal-close {
+      background: #f1f5f9; border: none; border-radius: 50%;
+      width: 28px; height: 28px; font-size: 13px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #64748b; transition: background .15s;
+    }
+    .modal-close:hover { background: #e2e8f0; }
+    .modal-body { padding: 20px; overflow-y: auto; }
+
+    /* ── インストール ── */
+    .steps { display: flex; flex-direction: column; }
+    .step { display: flex; gap: 16px; padding: 13px 0; border-bottom: 1px solid #f1f5f9; }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      width: 26px; height: 26px; border-radius: 50%; background: #7c3aed; color: white;
+      font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-content h3 { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+    .step-content p { font-size: 12px; color: #64748b; line-height: 1.6; }
+
+    /* ── 使い方マニュアル ── */
+    .manual-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+    }
+    @media (max-width: 500px) { .manual-grid { grid-template-columns: 1fr; } }
+    .manual-card { border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; }
     .manual-img-wrap {
       position: relative; background: #f1f5f9;
       aspect-ratio: 3 / 2; overflow: hidden;
@@ -97,28 +137,40 @@
     .manual-img-placeholder {
       position: absolute; inset: 0;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 6px; padding: 12px;
-      border: 2px dashed #cbd5e1; margin: 8px; border-radius: 6px;
+      gap: 5px; padding: 10px;
+      border: 2px dashed #cbd5e1; margin: 6px; border-radius: 5px;
     }
-    .manual-img-placeholder .ph-icon { font-size: 22px; opacity: .5; }
+    .manual-img-placeholder .ph-icon { font-size: 18px; opacity: .45; }
     .manual-img-filename {
-      font-family: monospace; font-size: 11px; color: #7c3aed;
-      background: #ede9fe; padding: 2px 7px; border-radius: 4px;
+      font-family: monospace; font-size: 10px; color: #7c3aed;
+      background: #ede9fe; padding: 1px 6px; border-radius: 3px;
     }
-    .manual-img-placeholder .ph-note { font-size: 11px; color: #94a3b8; text-align: center; line-height: 1.5; }
-    .manual-img {
-      position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-    .manual-card-body { padding: 14px 16px 16px; }
+    .manual-img-placeholder .ph-note { font-size: 10px; color: #94a3b8; text-align: center; line-height: 1.5; }
+    .manual-img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .manual-card-body { padding: 10px 12px 12px; }
     .manual-step-num {
       display: inline-flex; align-items: center; justify-content: center;
-      width: 22px; height: 22px; border-radius: 50%; background: #7c3aed;
-      color: white; font-size: 11px; font-weight: 700; margin-bottom: 6px;
+      width: 20px; height: 20px; border-radius: 50%; background: #7c3aed;
+      color: white; font-size: 10px; font-weight: 700; margin-bottom: 5px;
     }
-    .manual-card-body h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-    .manual-card-body p { font-size: 12px; color: #64748b; line-height: 1.6; }
+    .manual-card-body h3 { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+    .manual-card-body p { font-size: 11px; color: #64748b; line-height: 1.55; }
 
-    footer { background: #1a1a2e; color: #64748b; text-align: center; padding: 20px; font-size: 12px; }
+    /* ── できること ── */
+    .feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+    .feat-card {
+      background: #f8fafc; border-radius: 8px; padding: 14px;
+      border: 1px solid #e2e8f0; display: flex; gap: 10px; align-items: flex-start;
+    }
+    .feat-icon { font-size: 18px; flex-shrink: 0; }
+    .feat-card h3 { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
+    .feat-card p { font-size: 11px; color: #64748b; line-height: 1.5; }
+
+    /* ── バージョン履歴 ── */
+    .cl-item { display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; align-items: baseline; }
+    .cl-item:last-child { border-bottom: none; }
+    .cl-ver { font-weight: 700; font-size: 12px; color: #7c3aed; white-space: nowrap; width: 50px; flex-shrink: 0; }
+    .cl-notes { font-size: 12px; color: #334155; line-height: 1.5; }
   </style>
 </head>
 <body>
@@ -135,7 +187,13 @@
   <span class="version-badge" id="version-badge">読み込み中…</span>
 </section>
 
-<!-- バージョンが上がったら（コンパクト帯） -->
+<div class="modal-triggers">
+  <button class="modal-btn" onclick="openModal('modal-install')">インストール方法</button>
+  <button class="modal-btn" onclick="openModal('modal-manual')">使い方</button>
+  <button class="modal-btn" onclick="openModal('modal-features')">できること</button>
+  <button class="modal-btn" onclick="openModal('modal-changelog')">バージョン履歴</button>
+</div>
+
 <div class="update-strip">
   <span class="update-strip-label">🔄 バージョンが上がったら</span>
   <div class="update-strip-steps">
@@ -147,275 +205,263 @@
   </div>
 </div>
 
-<!-- インストール方法 -->
-<div class="section">
-  <h2>インストール方法</h2>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-content">
-        <h3>ZIPをダウンロード・解凍</h3>
-        <p>上部のボタンからZIPをダウンロードし、解凍する。</p>
-      </div>
+<!-- モーダル: インストール方法 -->
+<div class="modal-overlay" id="modal-install">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h2>インストール方法</h2>
+      <button class="modal-close" onclick="closeModal('modal-install')">✕</button>
     </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-content">
-        <h3>拡張機能ページを開く</h3>
-        <p>Chromeのアドレスバーに <code>chrome://extensions</code> と入力。</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-content">
-        <h3>デベロッパーモードをON</h3>
-        <p>画面右上のトグルをオンにする。</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-content">
-        <h3>フォルダを読み込む</h3>
-        <p>「パッケージ化されていない拡張機能を読み込む」で解凍した <code>mark-upper</code> フォルダを選択。</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">5</div>
-      <div class="step-content">
-        <h3>ツールバーに固定</h3>
-        <p>Chromeのパズルアイコンから Mark Upper を固定し、アイコンをクリックして名前を入力すれば完了。</p>
+    <div class="modal-body">
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h3>ZIPをダウンロード・解凍</h3>
+            <p>上部のボタンからZIPをダウンロードし、解凍する。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h3>拡張機能ページを開く</h3>
+            <p>Chromeのアドレスバーに <code>chrome://extensions</code> と入力。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h3>デベロッパーモードをON</h3>
+            <p>画面右上のトグルをオンにする。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h3>フォルダを読み込む</h3>
+            <p>「パッケージ化されていない拡張機能を読み込む」で解凍した <code>mark-upper</code> フォルダを選択。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <h3>ツールバーに固定</h3>
+            <p>Chromeのパズルアイコンから Mark Upper を固定し、アイコンをクリックして名前を入力すれば完了。</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- 使用マニュアル -->
-<div class="section-white">
-  <div class="manual-section">
-    <h2>使い方</h2>
-    <div class="manual-grid">
+<!-- モーダル: 使い方 -->
+<div class="modal-overlay" id="modal-manual">
+  <div class="modal" style="max-width: 780px;">
+    <div class="modal-hdr">
+      <h2>使い方</h2>
+      <button class="modal-close" onclick="closeModal('modal-manual')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="manual-grid">
 
-      <div class="manual-card">
-        <div class="manual-img-wrap">
-          <div class="manual-img-placeholder">
-            <span class="ph-icon">📷</span>
-            <span class="manual-img-filename">images/manual-01-activate.png</span>
-            <span class="ph-note">拡張機能アイコンをクリックしてONにする画面<br>ツールバーが表示された状態</span>
+        <div class="manual-card">
+          <div class="manual-img-wrap">
+            <div class="manual-img-placeholder">
+              <span class="ph-icon">📷</span>
+              <span class="manual-img-filename">images/manual-01-activate.png</span>
+              <span class="ph-note">拡張機能アイコンをクリックして<br>ツールバーが表示された状態</span>
+            </div>
+            <img src="images/manual-01-activate.png" class="manual-img" alt="拡張機能をONにする" onerror="this.style.display='none'">
           </div>
-          <img src="images/manual-01-activate.png" class="manual-img" alt="拡張機能をONにする" onerror="this.style.display='none'">
-        </div>
-        <div class="manual-card-body">
-          <div class="manual-step-num">1</div>
-          <h3>拡張機能をONにする</h3>
-          <p>Chromeツールバーの Mark Upper アイコンをクリック。上部にツールバーが現れ、名前を入力して使い始める。</p>
-        </div>
-      </div>
-
-      <div class="manual-card">
-        <div class="manual-img-wrap">
-          <div class="manual-img-placeholder">
-            <span class="ph-icon">📷</span>
-            <span class="manual-img-filename">images/manual-02-pin.png</span>
-            <span class="ph-note">ページ上をクリックしてピンを立て<br>コメント入力欄に書き込んでいる画面</span>
+          <div class="manual-card-body">
+            <div class="manual-step-num">1</div>
+            <h3>拡張機能をONにする</h3>
+            <p>Chromeツールバーの Mark Upper アイコンをクリック。上部にツールバーが現れ、名前を入力して使い始める。</p>
           </div>
-          <img src="images/manual-02-pin.png" class="manual-img" alt="ピンを立ててコメントを書く" onerror="this.style.display='none'">
         </div>
-        <div class="manual-card-body">
-          <div class="manual-step-num">2</div>
-          <h3>気になる箇所にコメントを書く</h3>
-          <p>コメントモードで画面上の気になる場所をクリック。ピンが立ちコメント欄が表示される。書いたら「送信」。</p>
-        </div>
-      </div>
 
-      <div class="manual-card">
-        <div class="manual-img-wrap">
-          <div class="manual-img-placeholder">
-            <span class="ph-icon">📷</span>
-            <span class="manual-img-filename">images/manual-03-status.png</span>
-            <span class="ph-note">ピンをクリックしてポップオーバーを開き<br>ステータスボタンを操作している画面</span>
+        <div class="manual-card">
+          <div class="manual-img-wrap">
+            <div class="manual-img-placeholder">
+              <span class="ph-icon">📷</span>
+              <span class="manual-img-filename">images/manual-02-pin.png</span>
+              <span class="ph-note">ページをクリックしてピンを立て<br>コメント入力欄に書き込んでいる画面</span>
+            </div>
+            <img src="images/manual-02-pin.png" class="manual-img" alt="ピンを立ててコメントを書く" onerror="this.style.display='none'">
           </div>
-          <img src="images/manual-03-status.png" class="manual-img" alt="ステータスを変える" onerror="this.style.display='none'">
-        </div>
-        <div class="manual-card-body">
-          <div class="manual-step-num">3</div>
-          <h3>ステータスを変える</h3>
-          <p>ピンをクリックするとポップオーバーが開く。未対応 → 対応済 → 確認完了 → 差し戻し の順にステータスを更新できる。</p>
-        </div>
-      </div>
-
-      <div class="manual-card">
-        <div class="manual-img-wrap">
-          <div class="manual-img-placeholder">
-            <span class="ph-icon">📷</span>
-            <span class="manual-img-filename">images/manual-04-panel.png</span>
-            <span class="ph-note">右サイドのコメント一覧パネルが開いた状態<br>複数のコメントが一覧表示されている画面</span>
+          <div class="manual-card-body">
+            <div class="manual-step-num">2</div>
+            <h3>気になる箇所にコメントを書く</h3>
+            <p>コメントモードで画面上の気になる場所をクリック。ピンが立ちコメント欄が表示される。書いたら「送信」。</p>
           </div>
-          <img src="images/manual-04-panel.png" class="manual-img" alt="コメント一覧パネル" onerror="this.style.display='none'">
         </div>
-        <div class="manual-card-body">
-          <div class="manual-step-num">4</div>
-          <h3>コメント一覧を確認する</h3>
-          <p>ツールバーの「一覧」ボタンで右サイドにパネルが開く。全コメントの確認や別ページへの移動もここから行える。</p>
-        </div>
-      </div>
 
-      <div class="manual-card">
-        <div class="manual-img-wrap">
-          <div class="manual-img-placeholder">
-            <span class="ph-icon">📷</span>
-            <span class="manual-img-filename">images/manual-05-device.png</span>
-            <span class="ph-note">PC/Mobileボタンで切替えた状態<br>スマホ幅（390px）に変わった画面</span>
+        <div class="manual-card">
+          <div class="manual-img-wrap">
+            <div class="manual-img-placeholder">
+              <span class="ph-icon">📷</span>
+              <span class="manual-img-filename">images/manual-03-status.png</span>
+              <span class="ph-note">ピンをクリックしてポップオーバーを開き<br>ステータスボタンを操作している画面</span>
+            </div>
+            <img src="images/manual-03-status.png" class="manual-img" alt="ステータスを変える" onerror="this.style.display='none'">
           </div>
-          <img src="images/manual-05-device.png" class="manual-img" alt="PC/モバイル切替" onerror="this.style.display='none'">
-        </div>
-        <div class="manual-card-body">
-          <div class="manual-step-num">5</div>
-          <h3>PC / モバイルを切り替える</h3>
-          <p>ツールバーのPC・Mobileボタンでブラウザ幅を切り替え。コメントはそれぞれ独立して管理される。</p>
-        </div>
-      </div>
-
-      <div class="manual-card">
-        <div class="manual-img-wrap">
-          <div class="manual-img-placeholder">
-            <span class="ph-icon">📷</span>
-            <span class="manual-img-filename">images/manual-06-share.png</span>
-            <span class="ph-note">共有ボタンを押してURLがコピーされた状態<br>アナウンスが表示されている画面</span>
+          <div class="manual-card-body">
+            <div class="manual-step-num">3</div>
+            <h3>ステータスを変える</h3>
+            <p>ピンをクリックするとポップオーバーが開く。未対応 → 対応済 → 確認完了 → 差し戻し の順に更新できる。</p>
           </div>
-          <img src="images/manual-06-share.png" class="manual-img" alt="チームで共有する" onerror="this.style.display='none'">
         </div>
-        <div class="manual-card-body">
-          <div class="manual-step-num">6</div>
-          <h3>チームで共有する</h3>
-          <p>「共有」ボタンでセッションURLがコピーされる。そのURLをチームに送ると、同じコメントを全員で確認できる。</p>
-        </div>
-      </div>
 
+        <div class="manual-card">
+          <div class="manual-img-wrap">
+            <div class="manual-img-placeholder">
+              <span class="ph-icon">📷</span>
+              <span class="manual-img-filename">images/manual-04-panel.png</span>
+              <span class="ph-note">右サイドのコメント一覧パネルが開いた状態<br>複数コメントが一覧表示されている画面</span>
+            </div>
+            <img src="images/manual-04-panel.png" class="manual-img" alt="コメント一覧パネル" onerror="this.style.display='none'">
+          </div>
+          <div class="manual-card-body">
+            <div class="manual-step-num">4</div>
+            <h3>コメント一覧を確認する</h3>
+            <p>ツールバーの「一覧」ボタンで右サイドにパネルが開く。全コメントの確認や別ページへの移動もここから行える。</p>
+          </div>
+        </div>
+
+        <div class="manual-card">
+          <div class="manual-img-wrap">
+            <div class="manual-img-placeholder">
+              <span class="ph-icon">📷</span>
+              <span class="manual-img-filename">images/manual-05-device.png</span>
+              <span class="ph-note">PC/Mobileボタンで切替えた状態<br>スマホ幅（390px）に変わった画面</span>
+            </div>
+            <img src="images/manual-05-device.png" class="manual-img" alt="PC/モバイル切替" onerror="this.style.display='none'">
+          </div>
+          <div class="manual-card-body">
+            <div class="manual-step-num">5</div>
+            <h3>PC / モバイルを切り替える</h3>
+            <p>ツールバーのPC・Mobileボタンでブラウザ幅を切り替え。コメントはそれぞれ独立して管理される。</p>
+          </div>
+        </div>
+
+        <div class="manual-card">
+          <div class="manual-img-wrap">
+            <div class="manual-img-placeholder">
+              <span class="ph-icon">📷</span>
+              <span class="manual-img-filename">images/manual-06-share.png</span>
+              <span class="ph-note">共有ボタンを押してURLがコピーされた状態<br>アナウンスが表示されている画面</span>
+            </div>
+            <img src="images/manual-06-share.png" class="manual-img" alt="チームで共有する" onerror="this.style.display='none'">
+          </div>
+          <div class="manual-card-body">
+            <div class="manual-step-num">6</div>
+            <h3>チームで共有する</h3>
+            <p>「共有」ボタンでセッションURLがコピーされる。そのURLをチームに送ると、同じコメントを全員で確認できる。</p>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
 
-<!-- できること -->
-<div class="section">
-  <h2>できること</h2>
-  <div class="feat-grid">
-    <div class="feat-card">
-      <div class="feat-icon">📍</div>
-      <div><h3>ピンでコメント</h3><p>クリックした箇所にピンとコメント欄が表示される。</p></div>
+<!-- モーダル: できること -->
+<div class="modal-overlay" id="modal-features">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h2>できること</h2>
+      <button class="modal-close" onclick="closeModal('modal-features')">✕</button>
     </div>
-    <div class="feat-card">
-      <div class="feat-icon">✋</div>
-      <div><h3>ピンをドラッグ移動</h3><p>自分が立てたピンをドラッグして位置を調整できる。</p></div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">📱</div>
-      <div><h3>PC・モバイル切替</h3><p>ボタン一つでスマホ幅に切替。コメントは別管理。</p></div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">📐</div>
-      <div><h3>幅固定オプション</h3><p>📐 幅固定ボタンでPC 1366px / Mobile 390px に統一。全員が同じ幅で確認できる。</p></div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">🚦</div>
-      <div><h3>4段階ステータス</h3><p>未対応→対応済→確認完了。差し戻しにも対応。</p></div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">💬</div>
-      <div><h3>返信（スレッド）</h3><p>コメントに返信してスレッド形式でやりとりできる。</p></div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">@</div>
-      <div><h3>@メンション</h3><p>@名前で担当者を指定できる。</p></div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">🖼</div>
-      <div><h3>ファイル添付</h3><p>画像・ファイルをコメントに添付できる（最大10MB）。</p></div>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">🔒</div>
-      <div><h3>認証サイト対応</h3><p>パスワード付きのステージング環境でも使える。</p></div>
-    </div>
-  </div>
-</div>
-
-<!-- バージョン履歴 -->
-<div class="section-white">
-  <div class="section">
-    <h2>バージョン履歴</h2>
-    <div class="cl-item">
-      <div class="cl-ver">v2.11.1</div>
-      <div class="cl-notes">ライトテーマ時のアップデート通知ピルの色が消える問題を修正</div>
-    </div>
-    <div class="cl-item">
-      <div class="cl-ver">v2.11.0</div>
-      <div class="cl-notes">アップデート通知をツールバー内にも表示・ボタン文言整理</div>
-    </div>
-    <div class="cl-item">
-      <div class="cl-ver">v2.10.x</div>
-      <div class="cl-notes">ツールバーボタン配置変更・サイト内コメント全削除機能・閉じるボタンでアイコンバッジOFF・拡張機能説明にURLを追加</div>
-    </div>
-    <div class="cl-item">
-      <div class="cl-ver">v2.9.0</div>
-      <div class="cl-notes">ライトテーマCSSカバー補完・ドラッグ後のピンクリック誤発火修正・全削除のキャッシュクリア改善</div>
-    </div>
-    <div class="cl-item">
-      <div class="cl-ver">v2.8.0</div>
-      <div class="cl-notes">ライト/ダークテーマ切替ボタン追加・一覧パネルに全削除ボタン設置・共有アラートのツールバー被り修正</div>
-    </div>
-    <div class="cl-item">
-      <div class="cl-ver">v2.7.0</div>
-      <div class="cl-notes">ピン打ち時のビューポートサイズを記録・ピン/一覧クリックで記録時の幅に復元・右固定要素のパネル回避対応</div>
-    </div>
-    <div class="cl-item">
-      <div class="cl-ver">v2.6.0</div>
-      <div class="cl-notes">右サイドにコメント一覧パネル追加・ページ跨ぎナビゲーション・未読ピンの視認性向上・ツールバーをSite Review準拠デザインに刷新</div>
-    </div>
-    <div class="cl-item">
-      <div class="cl-ver">v2.0.0</div>
-      <div class="cl-notes">Supabaseによるクラウド同期・セッション管理・リアルタイム共有機能を全面導入</div>
-    </div>
-    <div class="cl-item">
-      <div class="cl-ver">v1.8.0</div>
-      <div class="cl-notes">UIレイアウト切り替え機能追加（⇄ボタンで横ツールバー↔左縦サイドバーをいつでも切り替え可能）</div>
-    </div>
-    <div class="cl-item">
-      <div class="cl-ver">v1.7.0</div>
-      <div class="cl-notes">固定幅をオプション化（📐 幅固定ボタンで任意にON/OFF）・PC固定幅を1366pxに変更</div>
-    </div>
-    <div class="cl-item">
-      <div class="cl-ver">v1.6.0</div>
-      <div class="cl-notes">全員が同じ幅で見る固定幅方式を導入・ピンをドラッグで移動できる機能を追加</div>
-    </div>
-    <div class="cl-item">
-      <div class="cl-ver">v1.5.0</div>
-      <div class="cl-notes">ピン位置ずれをさらに改善（テキストアンカー方式・セマンティックコンテナ内%方式を追加）</div>
-    </div>
-    <div class="cl-item">
-      <div class="cl-ver">v1.4.0</div>
-      <div class="cl-notes">ピン位置が画面幅によってずれる問題を修正（指紋方式・見出しアンカー比率化）</div>
-    </div>
-    <div class="cl-item">
-      <div class="cl-ver">v1.3.0</div>
-      <div class="cl-notes">コメント削除・新着通知確認後のキャッシュ不整合を修正</div>
-    </div>
-    <div class="cl-item">
-      <div class="cl-ver">v1.2.x</div>
-      <div class="cl-notes">ポップアップ廃止・名前インライン編集・全コメント削除・ファイル添付・CSP対応・各種バグ修正</div>
-    </div>
-    <div class="cl-item">
-      <div class="cl-ver">v1.1.x</div>
-      <div class="cl-notes">ピン位置の要素基準保存・右下アンカーナビ・ステータス別件数表示</div>
-    </div>
-    <div class="cl-item">
-      <div class="cl-ver">v1.0.0</div>
-      <div class="cl-notes">初回リリース</div>
+    <div class="modal-body">
+      <div class="feat-grid">
+        <div class="feat-card">
+          <div class="feat-icon">📍</div>
+          <div><h3>ピンでコメント</h3><p>クリックした箇所にピンとコメント欄が表示される。</p></div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">✋</div>
+          <div><h3>ピンをドラッグ移動</h3><p>自分が立てたピンをドラッグして位置を調整できる。</p></div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">📱</div>
+          <div><h3>PC・モバイル切替</h3><p>ボタン一つでスマホ幅に切替。コメントは別管理。</p></div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">📐</div>
+          <div><h3>幅固定オプション</h3><p>PC 1366px / Mobile 390px に統一。全員が同じ幅で確認できる。</p></div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🚦</div>
+          <div><h3>4段階ステータス</h3><p>未対応→対応済→確認完了。差し戻しにも対応。</p></div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">💬</div>
+          <div><h3>返信（スレッド）</h3><p>コメントに返信してスレッド形式でやりとりできる。</p></div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">@</div>
+          <div><h3>@メンション</h3><p>@名前で担当者を指定できる。</p></div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🖼</div>
+          <div><h3>ファイル添付</h3><p>画像・ファイルをコメントに添付できる（最大10MB）。</p></div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🔒</div>
+          <div><h3>認証サイト対応</h3><p>パスワード付きのステージング環境でも使える。</p></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<footer>© Mark Upper — 社内専用ツール</footer>
+<!-- モーダル: バージョン履歴 -->
+<div class="modal-overlay" id="modal-changelog">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h2>バージョン履歴</h2>
+      <button class="modal-close" onclick="closeModal('modal-changelog')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="cl-item"><div class="cl-ver">v2.11.1</div><div class="cl-notes">ライトテーマ時のアップデート通知ピルの色が消える問題を修正</div></div>
+      <div class="cl-item"><div class="cl-ver">v2.11.0</div><div class="cl-notes">アップデート通知をツールバー内にも表示・ボタン文言整理</div></div>
+      <div class="cl-item"><div class="cl-ver">v2.10.x</div><div class="cl-notes">ツールバーボタン配置変更・サイト内コメント全削除機能・閉じるボタンでアイコンバッジOFF・拡張機能説明にURLを追加</div></div>
+      <div class="cl-item"><div class="cl-ver">v2.9.0</div><div class="cl-notes">ライトテーマCSSカバー補完・ドラッグ後のピンクリック誤発火修正・全削除のキャッシュクリア改善</div></div>
+      <div class="cl-item"><div class="cl-ver">v2.8.0</div><div class="cl-notes">ライト/ダークテーマ切替ボタン追加・一覧パネルに全削除ボタン設置・共有アラートのツールバー被り修正</div></div>
+      <div class="cl-item"><div class="cl-ver">v2.7.0</div><div class="cl-notes">ピン打ち時のビューポートサイズを記録・ピン/一覧クリックで記録時の幅に復元・右固定要素のパネル回避対応</div></div>
+      <div class="cl-item"><div class="cl-ver">v2.6.0</div><div class="cl-notes">右サイドにコメント一覧パネル追加・ページ跨ぎナビゲーション・未読ピンの視認性向上・ツールバーをSite Review準拠デザインに刷新</div></div>
+      <div class="cl-item"><div class="cl-ver">v2.0.0</div><div class="cl-notes">Supabaseによるクラウド同期・セッション管理・リアルタイム共有機能を全面導入</div></div>
+      <div class="cl-item"><div class="cl-ver">v1.8.0</div><div class="cl-notes">UIレイアウト切り替え機能追加（⇄ボタンで横ツールバー↔左縦サイドバーをいつでも切り替え可能）</div></div>
+      <div class="cl-item"><div class="cl-ver">v1.7.0</div><div class="cl-notes">固定幅をオプション化（📐 幅固定ボタンで任意にON/OFF）・PC固定幅を1366pxに変更</div></div>
+      <div class="cl-item"><div class="cl-ver">v1.6.0</div><div class="cl-notes">全員が同じ幅で見る固定幅方式を導入・ピンをドラッグで移動できる機能を追加</div></div>
+      <div class="cl-item"><div class="cl-ver">v1.5.0</div><div class="cl-notes">ピン位置ずれをさらに改善（テキストアンカー方式・セマンティックコンテナ内%方式を追加）</div></div>
+      <div class="cl-item"><div class="cl-ver">v1.4.0</div><div class="cl-notes">ピン位置が画面幅によってずれる問題を修正（指紋方式・見出しアンカー比率化）</div></div>
+      <div class="cl-item"><div class="cl-ver">v1.3.0</div><div class="cl-notes">コメント削除・新着通知確認後のキャッシュ不整合を修正</div></div>
+      <div class="cl-item"><div class="cl-ver">v1.2.x</div><div class="cl-notes">ポップアップ廃止・名前インライン編集・全コメント削除・ファイル添付・CSP対応・各種バグ修正</div></div>
+      <div class="cl-item"><div class="cl-ver">v1.1.x</div><div class="cl-notes">ピン位置の要素基準保存・右下アンカーナビ・ステータス別件数表示</div></div>
+      <div class="cl-item"><div class="cl-ver">v1.0.0</div><div class="cl-notes">初回リリース</div></div>
+    </div>
+  </div>
+</div>
 
 <script>
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+  }
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) overlay.classList.remove('open');
+    });
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+    }
+  });
+
   fetch('version.json')
     .then(r => r.json())
     .then(data => {
