@@ -1,5 +1,5 @@
 {
-  "version": "2.19.8",
-  "notes": "ピン位置ずれの根本原因を修正：anchor保存をdoc座標に統一、旧データの壊れたel_x_pctを自動スキップ",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.19.8.zip"
+  "version": "2.19.9",
+  "notes": "仮想ビューポート下部の余白を、サイト本体のレイアウトを変えずに背景だけ自然に見えるよう調整",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.19.9.zip"
 }
