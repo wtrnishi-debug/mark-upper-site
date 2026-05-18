@@ -1,5 +1,5 @@
 {
-  "version": "2.19.7",
-  "notes": "ピン位置・コメント欄位置の座標ずれを修正、サイト一覧をMU終了時に自動で閉じるよう修正",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.19.7.zip"
+  "version": "2.19.8",
+  "notes": "ピン位置ずれの根本原因を修正：anchor保存をdoc座標に統一、旧データの壊れたel_x_pctを自動スキップ",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.19.8.zip"
 }
