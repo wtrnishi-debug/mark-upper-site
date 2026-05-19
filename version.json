@@ -1,5 +1,5 @@
 {
-  "version": "2.20.6",
-  "notes": "ページのCSPで画像がブロックされる場合、background経由でdataURLとして読み込む方式に変更",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.6.zip"
+  "version": "2.20.7",
+  "notes": "添付画像を常にbackground経由でdataURL読み込みに統一（CSP完全回避）",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.7.zip"
 }
