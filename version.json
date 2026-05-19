@@ -1,5 +1,5 @@
 {
-  "version": "2.20.3",
-  "notes": "添付画像をコメント内に大きく表示するよう変更。添付ファイルのXボタン削除。コメント一覧にも投稿日時を表示",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.3.zip"
+  "version": "2.20.4",
+  "notes": "画像アップロードのバグ修正（ArrayBuffer→Base64方式に変更）。アップロード失敗時にエラーメッセージを表示",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.4.zip"
 }
