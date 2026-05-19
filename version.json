@@ -1,5 +1,5 @@
 {
-  "version": "2.20.4",
-  "notes": "画像アップロードのバグ修正（ArrayBuffer→Base64方式に変更）。アップロード失敗時にエラーメッセージを表示",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.4.zip"
+  "version": "2.20.5",
+  "notes": "画像アップロードエラー時にSupabaseの詳細メッセージを表示するよう改善",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.5.zip"
 }
