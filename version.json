@@ -1,5 +1,5 @@
 {
-  "version": "2.20.0",
-  "notes": "コメント・返信フォームに📷ボタンを追加。1クリックでスクリーンショットを撮影して添付できる（MU自身のUIは写らない・300KB以下に自動圧縮）",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.0.zip"
+  "version": "2.20.1",
+  "notes": "添付画像をクリックすると新しいタブで開くよう修正。ピンタップ時のウィンドウ高さ変更を廃止（幅のみ復元）",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.1.zip"
 }
