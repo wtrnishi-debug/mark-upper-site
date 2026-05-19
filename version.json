@@ -1,5 +1,5 @@
 {
-  "version": "2.20.1",
-  "notes": "添付画像をクリックすると新しいタブで開くよう修正。ピンタップ時のウィンドウ高さ変更を廃止（幅のみ復元）",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.1.zip"
+  "version": "2.20.2",
+  "notes": "添付画像をクリックするとライトボックスで拡大表示するよう変更。コメント・返信の投稿日時を表示",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.2.zip"
 }
