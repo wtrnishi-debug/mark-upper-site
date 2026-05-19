@@ -1,5 +1,5 @@
 {
-  "version": "2.20.8",
-  "notes": "添付ファイルをファイル名チップ表示に変更。タップで新タブ表示（🖼 画像 / 📎 その他）",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.8.zip"
+  "version": "2.20.9",
+  "notes": "スクリーンショットをOffscreenCanvasで圧縮・直接アップロードに変更。添付ファイルをファイル名チップで表示、タップで別タブ表示。投稿日時を一覧・詳細に表示。添付削除ボタン追加。ピンタップ時の高さ変更を修正。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.9.zip"
 }
