@@ -1,5 +1,5 @@
 {
-  "version": "2.19.9",
-  "notes": "仮想ビューポート下部の余白を、サイト本体のレイアウトを変えずに背景だけ自然に見えるよう調整",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.19.9.zip"
+  "version": "2.20.0",
+  "notes": "コメント・返信フォームに📷ボタンを追加。1クリックでスクリーンショットを撮影して添付できる（MU自身のUIは写らない・300KB以下に自動圧縮）",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.0.zip"
 }
