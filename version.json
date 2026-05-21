@@ -1,5 +1,5 @@
 {
-  "version": "2.20.14",
-  "notes": "スクロール位置でのピン配置ずれを修正（根本対処）。",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.14.zip"
+  "version": "2.20.15",
+  "notes": "スクロール後タップで上に戻る問題を修正。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.15.zip"
 }
