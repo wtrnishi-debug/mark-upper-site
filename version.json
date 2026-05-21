@@ -1,5 +1,5 @@
 {
-  "version": "2.20.12",
-  "notes": "コメント一覧の文字色・日時の視認性を向上。スクショボタンのテキストを変更。",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.12.zip"
+  "version": "2.20.13",
+  "notes": "スクロール時のピン位置ずれを修正。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.13.zip"
 }
