@@ -1,5 +1,5 @@
 {
-  "version": "2.20.11",
-  "notes": "スクロール1回目がひっかかる問題を修正（overflow-x: clip に変更）",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.11.zip"
+  "version": "2.20.12",
+  "notes": "コメント一覧の文字色・日時の視認性を向上。スクショボタンのテキストを変更。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.12.zip"
 }
