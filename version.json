@@ -1,5 +1,5 @@
 {
-  "version": "2.20.22",
-  "notes": "スクショ撮影時にPC/Mobile切替・全削除ボタンなどのUIが写り込む問題を修正（all:initialによるvisibility戻りが原因）。コメントサイト一覧のサムネを、サイトのトップページ（FV）スクショ表示に変更しました。",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.22.zip"
+  "version": "2.20.23",
+  "notes": "コメントサイト一覧のサムネ（トップページスクショ）が表示されない問題を修正しました。URLのエンコードによりスクショサービスが403を返していたのが原因です。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.23.zip"
 }
