@@ -1,5 +1,5 @@
 {
-  "version": "2.20.21",
-  "notes": "ツールバー左上の「Mark Upper」ロゴの下に、現在読み込まれている拡張機能のバージョン番号を小さく表示するようにしました。",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.21.zip"
+  "version": "2.20.22",
+  "notes": "スクショ撮影時にPC/Mobile切替・全削除ボタンなどのUIが写り込む問題を修正（all:initialによるvisibility戻りが原因）。コメントサイト一覧のサムネを、サイトのトップページ（FV）スクショ表示に変更しました。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.22.zip"
 }
