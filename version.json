@@ -1,5 +1,5 @@
 {
-  "version": "2.20.16",
-  "notes": "スクロール先をタップしてもコメントが入力できない問題と、コメント一覧を開くとサイトが崩れる問題を修正。",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.16.zip"
+  "version": "2.20.17",
+  "notes": "コメントサイト一覧で各サイトのカードをクリックすると、そのサイトを別タブで開けるようにしました。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.17.zip"
 }
