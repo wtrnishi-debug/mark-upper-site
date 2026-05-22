@@ -1,5 +1,5 @@
 {
-  "version": "2.20.18",
-  "notes": "コメントのスクショ撮影時に、ツールバー・コメント一覧・幅/%バーなどのツールUIが写り込まず、サイト部分だけが撮れるように修正しました。",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.18.zip"
+  "version": "2.20.19",
+  "notes": "コメント一覧やピンをタップした際にウィンドウが左上へ勝手に動く問題を修正。表示倍率（%）を下げてもピンが小さくならず、常に同じ大きさで表示されるようにしました。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.19.zip"
 }
