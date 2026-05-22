@@ -1,5 +1,5 @@
 {
-  "version": "2.20.17",
-  "notes": "コメントサイト一覧で各サイトのカードをクリックすると、そのサイトを別タブで開けるようにしました。",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.17.zip"
+  "version": "2.20.18",
+  "notes": "コメントのスクショ撮影時に、ツールバー・コメント一覧・幅/%バーなどのツールUIが写り込まず、サイト部分だけが撮れるように修正しました。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.18.zip"
 }
