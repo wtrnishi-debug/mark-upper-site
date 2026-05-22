@@ -1,5 +1,5 @@
 {
-  "version": "2.20.19",
-  "notes": "コメント一覧やピンをタップした際にウィンドウが左上へ勝手に動く問題を修正。表示倍率（%）を下げてもピンが小さくならず、常に同じ大きさで表示されるようにしました。",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.19.zip"
+  "version": "2.20.20",
+  "notes": "コメントサイト一覧のサムネイルを、各サイトのOGP画像（og:image）を取得して表示する方式に変更しました。画像が無いサイトは従来どおりファビコン表示になります。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.20.zip"
 }
