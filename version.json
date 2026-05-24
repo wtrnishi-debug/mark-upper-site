@@ -1,5 +1,5 @@
 {
-  "version": "2.20.24",
-  "notes": "コメントのスクショをサイト表示部分だけに切り抜くよう修正しました（上下の黒帯・周囲の枠を除去）。あわせてコメントサイト一覧のサムネ画像が表示されない問題を修正しました（外部画像をbackground経由で読み込みCSPを回避）。",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.24.zip"
+  "version": "2.20.25",
+  "notes": "スクショ付きの「返信」が送信できなかった不具合を修正しました。あわせて使われていない機能を内部的に整理し、ビューポート幅のドラッグ操作とコメントサイト一覧のサムネ表示の安定性を高めました。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.25.zip"
 }
