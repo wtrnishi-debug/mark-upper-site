@@ -1,5 +1,5 @@
 {
-  "version": "2.20.23",
-  "notes": "コメントサイト一覧のサムネ（トップページスクショ）が表示されない問題を修正しました。URLのエンコードによりスクショサービスが403を返していたのが原因です。",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.23.zip"
+  "version": "2.20.24",
+  "notes": "コメントのスクショをサイト表示部分だけに切り抜くよう修正しました（上下の黒帯・周囲の枠を除去）。あわせてコメントサイト一覧のサムネ画像が表示されない問題を修正しました（外部画像をbackground経由で読み込みCSPを回避）。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.24.zip"
 }
