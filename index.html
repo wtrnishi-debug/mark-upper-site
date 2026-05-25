@@ -263,6 +263,7 @@
     .post-anchor:hover { text-decoration: underline; }
     .post-img { margin-top: 8px; }
     .post-img img { max-width: 240px; max-height: 240px; border-radius: 6px; border: 1px solid #e2e8f0; cursor: pointer; display: block; }
+    .post-img video { max-width: 320px; max-height: 320px; border-radius: 6px; border: 1px solid #e2e8f0; display: block; }
   </style>
 </head>
 <body>
@@ -516,6 +517,7 @@
       <button class="modal-close" onclick="closeModal('modal-changelog')">✕</button>
     </div>
     <div class="modal-body">
+      <div class="cl-item"><div class="cl-ver">v2.20.32</div><div class="cl-notes">コメント添付画像がタップしても表示されない不具合を修正（base64のまま保存されていた根本原因を解消）・HEIC/AVIF/WEBP/GIF/MP4等も正しく表示・対応外の拡張子はアラート表示</div></div>
       <div class="cl-item"><div class="cl-ver">v2.20.31</div><div class="cl-notes">コメント一覧カードのタイトルをURLからページタイトル（ブラウザのタブと同じ表記）に変更・タイトルもキャッシュ</div></div>
       <div class="cl-item"><div class="cl-ver">v2.20.30</div><div class="cl-notes">サムネ表示を高速化（取得画像をキャッシュし2回目以降は即表示・初回もファビコンを先出ししOGP取得後に差し替え）</div></div>
       <div class="cl-item"><div class="cl-ver">v2.20.29</div><div class="cl-notes">サムネが表示されない根本原因を修正（フォールバック枠が常にサムネ画像を覆っていたCSS不具合）・OGP画像が正しく表示されるように</div></div>
@@ -584,7 +586,7 @@
           <input type="text" id="nt-name" maxlength="30" class="board-input" placeholder="名前（任意・空欄は名無しさん）">
           <textarea id="nt-text" maxlength="2000" placeholder="本文（最大2000文字）"></textarea>
           <div class="board-file-row">
-            <label class="board-file-label">📎 画像を選ぶ<input type="file" id="nt-image" accept="image/*" onchange="muPreview('nt')"></label>
+            <label class="board-file-label">📎 画像・動画を選ぶ<input type="file" id="nt-image" accept=".png,.jpg,.jpeg,.gif,.webp,.avif,.heic,.mp4" onchange="muPreview('nt')"></label>
             <span class="board-file-name" id="nt-image-name"></span>
           </div>
           <div class="board-form-row">
@@ -612,7 +614,7 @@
           <input type="text" id="re-name" maxlength="30" class="board-input" placeholder="名前（任意・空欄は名無しさん）">
           <textarea id="re-text" maxlength="2000" placeholder="返信（最大2000文字）"></textarea>
           <div class="board-file-row">
-            <label class="board-file-label">📎 画像を選ぶ<input type="file" id="re-image" accept="image/*" onchange="muPreview('re')"></label>
+            <label class="board-file-label">📎 画像・動画を選ぶ<input type="file" id="re-image" accept=".png,.jpg,.jpeg,.gif,.webp,.avif,.heic,.mp4" onchange="muPreview('re')"></label>
             <span class="board-file-name" id="re-image-name"></span>
           </div>
           <div class="board-form-row">
@@ -700,15 +702,23 @@
     const f = document.getElementById(p + '-image').files[0];
     document.getElementById(p + '-image-name').textContent = f ? f.name : '';
   }
+  const MU_EXT_MIME = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', gif: 'image/gif', webp: 'image/webp', avif: 'image/avif', heic: 'image/heic', mp4: 'video/mp4' };
   async function muUploadImage(inputId, statusEl) {
     const f = document.getElementById(inputId).files[0];
     if (!f) return { ok: true, url: null };
+    const ext = (f.name.split('.').pop() || '').toLowerCase();
+    if (!MU_EXT_MIME[ext]) { alert('この拡張子は添付できません。\n対応形式: PNG / JPG / JPEG / GIF / WEBP / AVIF / HEIC / MP4'); return { ok: false }; }
     if (f.size > 5 * 1024 * 1024) { statusEl.textContent = '画像は5MBまで'; return { ok: false }; }
-    const ext = (f.name.split('.').pop() || 'jpg').toLowerCase();
     const path = `${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    const { error } = await muSb.storage.from('board-images').upload(path, f, { contentType: f.type });
+    const { error } = await muSb.storage.from('board-images').upload(path, f, { contentType: f.type || MU_EXT_MIME[ext] });
     if (error) { statusEl.textContent = '画像アップロード失敗'; return { ok: false }; }
     return { ok: true, url: muSb.storage.from('board-images').getPublicUrl(path).data.publicUrl };
+  }
+  function muMedia(url) {
+    if (!url) return '';
+    const u = muAttr(url);
+    if (/\.mp4(\?|$)/i.test(url)) return `<div class="post-img"><video src="${u}" controls preload="metadata"></video></div>`;
+    return `<div class="post-img"><a href="${u}" target="_blank" rel="noopener"><img src="${u}" alt="添付" loading="lazy"></a></div>`;
   }
 
   // ── ビュー切替 ──
@@ -797,7 +807,7 @@
           <button class="save" onclick="muSavePost('${p.id}')">保存</button>
           <button class="cancel" onclick="muCancelEdit('${p.id}')">取消</button>
         </div>
-        ${p.image_url ? `<div class="post-img"><a href="${muAttr(p.image_url)}" target="_blank" rel="noopener"><img src="${muAttr(p.image_url)}" alt="添付画像" loading="lazy"></a></div>` : ''}
+        ${muMedia(p.image_url)}
       </div>`).join('');
   }
   function muEditPost(id) {
