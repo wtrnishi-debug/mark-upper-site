@@ -1,5 +1,5 @@
 {
-  "version": "2.20.31",
-  "notes": "コメントサイト一覧の各カードのタイトルを、URLからサイトのページタイトル（ブラウザのタブと同じ表記）に変更しました。タイトルは画像と同じくキャッシュされ、2回目以降は即表示されます。",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.31.zip"
+  "version": "2.20.32",
+  "notes": "コメントに添付した画像（PNG/JPG/GIF/WEBP/AVIF/HEIC/MP4）がタップしても表示されない不具合を修正しました。HEIC・AVIFなどの形式も正しく表示されます。対応外の拡張子を選んだ場合はアラートでお知らせします。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.32.zip"
 }
