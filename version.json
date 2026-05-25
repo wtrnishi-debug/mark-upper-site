@@ -1,5 +1,5 @@
 {
-  "version": "2.20.27",
-  "notes": "拡張機能のコンソールに出ていたメンバー名の重複エラーを解消しました。コメントサイト一覧のサムネ（OGP画像）が表示されない原因を特定するための診断ログを追加しました。",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.27.zip"
+  "version": "2.20.28",
+  "notes": "コメントサイト一覧のサムネ（OGP画像）が表示されない原因を画面上で確認できるよう、診断表示を一時的に追加しました（サムネ取得に失敗したサイトは、カードに失敗理由が表示されます）。原因特定後に通常表示へ戻します。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.28.zip"
 }
