@@ -735,8 +735,8 @@
     const text = document.getElementById('nt-text').value.trim();
     const status = document.getElementById('nt-status');
     const btn = document.getElementById('nt-submit');
-    if (!title) { status.textContent = 'タイトルを入力してください'; return; }
-    if (!text) { status.textContent = '本文を入力してください'; return; }
+    if (!title) { alert('スレッドタイトルを入力してください'); return; }
+    if (!text) { alert('本文を入力してください'); return; }
     btn.disabled = true; status.textContent = '送信中…';
     const img = await muUploadImage('nt-image', status);
     if (!img.ok) { btn.disabled = false; return; }
@@ -823,7 +823,7 @@
     const text = document.getElementById('re-text').value.trim();
     const status = document.getElementById('re-status');
     const btn = document.getElementById('re-submit');
-    if (!text) { status.textContent = '返信を入力してください'; return; }
+    if (!text) { alert('返信内容を入力してください'); return; }
     btn.disabled = true; status.textContent = '送信中…';
     const img = await muUploadImage('re-image', status);
     if (!img.ok) { btn.disabled = false; return; }
