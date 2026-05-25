@@ -50,6 +50,11 @@ create policy "select threads" on mu_threads for select using (true);
 create policy "insert threads" on mu_threads for insert with check (true);
 create policy "select posts" on mu_posts for select using (true);
 create policy "insert posts" on mu_posts for insert with check (true);
+-- 社内向け：全員が全投稿を編集・削除できる
+create policy "update threads" on mu_threads for update using (true) with check (true);
+create policy "delete threads" on mu_threads for delete using (true);
+create policy "update posts" on mu_posts for update using (true) with check (true);
+create policy "delete posts" on mu_posts for delete using (true);
 
 -- 画像ストレージ（公開バケット）
 insert into storage.buckets (id, name, public)
@@ -57,3 +62,4 @@ insert into storage.buckets (id, name, public)
   on conflict (id) do nothing;
 create policy "board img read"   on storage.objects for select using (bucket_id = 'board-images');
 create policy "board img upload" on storage.objects for insert with check (bucket_id = 'board-images');
+create policy "board img delete" on storage.objects for delete using (bucket_id = 'board-images');

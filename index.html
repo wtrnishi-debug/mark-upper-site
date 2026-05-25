@@ -215,7 +215,20 @@
     /* スレ詳細 */
     .board-back { background: none; border: none; color: #7c3aed; font-size: 12px; font-weight: 600; cursor: pointer; padding: 0; margin-bottom: 10px; font-family: inherit; }
     .board-back:hover { text-decoration: underline; }
-    .board-thread-title { font-size: 16px; font-weight: 700; color: #1e293b; line-height: 1.5; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid #ede9fe; }
+    .board-thread-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid #ede9fe; }
+    .board-thread-title { font-size: 16px; font-weight: 700; color: #1e293b; line-height: 1.5; flex: 1; }
+    .board-thread-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .board-thread-actions button, .post-actions button {
+      background: none; border: 1px solid #e2e8f0; border-radius: 5px;
+      font-size: 11px; color: #94a3b8; cursor: pointer; padding: 2px 8px; font-family: inherit;
+    }
+    .board-thread-actions button:hover, .post-actions button:hover { border-color: #f87171; color: #ef4444; }
+    .post-actions { float: right; display: inline-flex; gap: 4px; }
+    .post-edit { width: 100%; min-height: 60px; border: 1px solid #a78bfa; border-radius: 8px; padding: 8px 10px; font-family: inherit; font-size: 13px; line-height: 1.6; margin-top: 4px; resize: vertical; }
+    .post-edit-row { display: flex; gap: 6px; margin-top: 6px; }
+    .post-edit-row button { font-size: 12px; border-radius: 6px; padding: 4px 12px; cursor: pointer; font-family: inherit; font-weight: 600; border: none; }
+    .post-edit-row .save { background: #7c3aed; color: #fff; }
+    .post-edit-row .cancel { background: #f1f5f9; color: #475569; }
     .board-posts { display: flex; flex-direction: column; gap: 14px; margin-bottom: 18px; }
     .post { border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; border-radius: 4px; transition: background .3s; }
     .post:last-child { border-bottom: none; }
@@ -561,7 +574,13 @@
       <!-- スレ詳細ビュー -->
       <div id="board-thread-view" style="display:none">
         <button class="board-back" onclick="muShowList()">← スレッド一覧へ</button>
-        <h3 class="board-thread-title" id="bt-title"></h3>
+        <div class="board-thread-head">
+          <h3 class="board-thread-title" id="bt-title"></h3>
+          <div class="board-thread-actions">
+            <button onclick="muEditThreadTitle()">✎ タイトル</button>
+            <button onclick="muDeleteThread()">🗑 スレ削除</button>
+          </div>
+        </div>
         <div class="board-posts" id="board-posts"></div>
         <div class="board-reply">
           <input type="text" id="re-name" maxlength="30" class="board-input" placeholder="名前（任意・空欄は名無しさん）">
@@ -731,10 +750,57 @@
     if (error) { el.innerHTML = '<div class="board-empty">読み込みに失敗しました</div>'; return; }
     el.innerHTML = (data || []).map(p => `
       <div class="post" id="post-${p.num}">
-        <div class="post-hdr"><span class="post-num">${p.num}</span><span class="post-name">${muEsc(p.name)}</span><span class="post-date">${muDateFull(p.created_at)}</span></div>
-        <div class="post-text">${muRenderText(p.text)}</div>
+        <div class="post-hdr">
+          <span class="post-actions"><button onclick="muEditPost('${p.id}')">✎</button><button onclick="muDeletePost('${p.id}')">🗑</button></span>
+          <span class="post-num">${p.num}</span><span class="post-name">${muEsc(p.name)}</span><span class="post-date">${muDateFull(p.created_at)}</span>
+        </div>
+        <div class="post-text" id="text-${p.id}">${muRenderText(p.text)}</div>
+        <textarea class="post-edit" id="edit-${p.id}" style="display:none">${muEsc(p.text)}</textarea>
+        <div class="post-edit-row" id="editrow-${p.id}" style="display:none">
+          <button class="save" onclick="muSavePost('${p.id}')">保存</button>
+          <button class="cancel" onclick="muCancelEdit('${p.id}')">取消</button>
+        </div>
         ${p.image_url ? `<div class="post-img"><a href="${muAttr(p.image_url)}" target="_blank" rel="noopener"><img src="${muAttr(p.image_url)}" alt="添付画像" loading="lazy"></a></div>` : ''}
       </div>`).join('');
+  }
+  function muEditPost(id) {
+    document.getElementById('text-' + id).style.display = 'none';
+    document.getElementById('edit-' + id).style.display = 'block';
+    document.getElementById('editrow-' + id).style.display = 'flex';
+  }
+  function muCancelEdit(id) {
+    document.getElementById('text-' + id).style.display = '';
+    document.getElementById('edit-' + id).style.display = 'none';
+    document.getElementById('editrow-' + id).style.display = 'none';
+  }
+  async function muSavePost(id) {
+    const text = document.getElementById('edit-' + id).value.trim();
+    if (!text) { alert('内容が空です'); return; }
+    const { error } = await muSb.from('mu_posts').update({ text }).eq('id', id);
+    if (error) { alert('保存に失敗しました'); return; }
+    muLoadPosts(muCurThread);
+  }
+  async function muDeletePost(id) {
+    if (!confirm('この投稿を削除しますか？')) return;
+    const { error } = await muSb.from('mu_posts').delete().eq('id', id);
+    if (error) { alert('削除に失敗しました'); return; }
+    muLoadPosts(muCurThread);
+  }
+  async function muEditThreadTitle() {
+    const cur = document.getElementById('bt-title').textContent;
+    const t = prompt('スレッドタイトルを編集', cur);
+    if (t === null) return;
+    const title = t.trim();
+    if (!title) { alert('タイトルが空です'); return; }
+    const { error } = await muSb.from('mu_threads').update({ title }).eq('id', muCurThread);
+    if (error) { alert('保存に失敗しました'); return; }
+    document.getElementById('bt-title').textContent = title;
+  }
+  async function muDeleteThread() {
+    if (!confirm('このスレッドを丸ごと削除しますか？（レスも全部消えます）')) return;
+    const { error } = await muSb.from('mu_threads').delete().eq('id', muCurThread);
+    if (error) { alert('削除に失敗しました'); return; }
+    muShowList();
   }
   async function muReply() {
     const name = document.getElementById('re-name').value.trim() || '名無しさん';
