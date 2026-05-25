@@ -1,5 +1,5 @@
 {
-  "version": "2.20.32",
-  "notes": "コメントに添付した画像（PNG/JPG/GIF/WEBP/AVIF/HEIC/MP4）がタップしても表示されない不具合を修正しました。HEIC・AVIFなどの形式も正しく表示されます。対応外の拡張子を選んだ場合はアラートでお知らせします。",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.32.zip"
+  "version": "2.20.33",
+  "notes": "一部サイトでMU起動時にスクロールした先の背景が黒くなる不具合を修正しました（背景の塗りがページ全長をカバーするようになりました）。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.33.zip"
 }
