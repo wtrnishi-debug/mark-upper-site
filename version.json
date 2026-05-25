@@ -1,5 +1,5 @@
 {
-  "version": "2.20.28",
-  "notes": "コメントサイト一覧のサムネ（OGP画像）が表示されない原因を画面上で確認できるよう、診断表示を一時的に追加しました（サムネ取得に失敗したサイトは、カードに失敗理由が表示されます）。原因特定後に通常表示へ戻します。",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.28.zip"
+  "version": "2.20.29",
+  "notes": "コメントサイト一覧のサムネが表示されない根本原因（フォールバック枠が常にサムネ画像を覆っていたCSSの不具合）を修正しました。これによりOGP画像が正しく表示されます。OGP画像が無いサイトは引き続きファビコン表示になります。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.29.zip"
 }
