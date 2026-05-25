@@ -1,5 +1,5 @@
 {
-  "version": "2.20.30",
-  "notes": "コメントサイト一覧のサムネ表示を高速化しました。一度取得した画像はキャッシュされ、2回目以降は瞬時に表示されます。初回もファビコンを先に表示し、OGP画像が取得でき次第差し替えるため、待ち時間が気になりにくくなりました。",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.30.zip"
+  "version": "2.20.31",
+  "notes": "コメントサイト一覧の各カードのタイトルを、URLからサイトのページタイトル（ブラウザのタブと同じ表記）に変更しました。タイトルは画像と同じくキャッシュされ、2回目以降は即表示されます。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.31.zip"
 }
