@@ -28,6 +28,20 @@
     }
     .logo { font-size: 20px; font-weight: 700; color: #a78bfa; letter-spacing: -0.5px; }
     .logo-sub { font-size: 12px; color: #64748b; }
+    .header-board-btn {
+      margin-left: auto;
+      background: #7c3aed; color: #fff; border: none;
+      border-radius: 20px; padding: 8px 18px;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      font-family: inherit; transition: background .15s, transform .15s;
+      box-shadow: 0 2px 12px rgba(124,58,237,.45);
+    }
+    .header-board-btn:hover { background: #6d28d9; transform: translateY(-1px); }
+    @media (max-width: 520px) {
+      header { padding: 12px 16px; }
+      .logo-sub { display: none; }
+      .header-board-btn { padding: 7px 13px; font-size: 12px; }
+    }
 
     /* ── ヒーロー ── */
     .hero {
@@ -105,6 +119,8 @@
       overflow: hidden;
     }
     .modal-overlay.open .modal { transform: translateY(0); }
+    /* 掲示板モーダルは広く */
+    #modal-board .modal { max-width: 960px; max-height: 90vh; }
     .modal-hdr {
       padding: 18px 20px 16px; border-bottom: 1px solid #f1f5f9;
       display: flex; align-items: center; justify-content: space-between;
@@ -248,6 +264,7 @@
 <header>
   <span class="logo">Mark Upper</span>
   <span class="logo-sub">Webサイト修正指示ツール</span>
+  <button class="header-board-btn" onclick="openBoard()">💬 ご意見・掲示板</button>
 </header>
 
 <section class="hero">
@@ -262,7 +279,6 @@
   <button class="modal-btn" onclick="openModal('modal-manual')">使い方</button>
   <button class="modal-btn" onclick="openModal('modal-features')">できること</button>
   <button class="modal-btn" onclick="openModal('modal-changelog')">バージョン履歴</button>
-  <button class="modal-btn" onclick="openBoard()">ご意見・掲示板</button>
 </div>
 
 <div class="update-strip">
