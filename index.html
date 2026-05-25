@@ -179,6 +179,30 @@
     .cl-item:last-child { border-bottom: none; }
     .cl-ver { font-weight: 700; font-size: 12px; color: #7c3aed; white-space: nowrap; width: 50px; flex-shrink: 0; }
     .cl-notes { font-size: 12px; color: #334155; line-height: 1.5; }
+
+    /* ── ご意見・掲示板（BBS） ── */
+    .board-intro { font-size: 12px; color: #64748b; line-height: 1.6; margin-bottom: 14px; }
+    .board-form { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .board-form textarea {
+      width: 100%; min-height: 84px; resize: vertical;
+      border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px 12px;
+      font-family: inherit; font-size: 13px; color: #1e293b; line-height: 1.6;
+    }
+    .board-form textarea:focus { outline: none; border-color: #a78bfa; }
+    .board-form-row { display: flex; align-items: center; gap: 10px; justify-content: flex-end; }
+    .board-status { font-size: 11px; color: #64748b; margin-right: auto; }
+    .board-submit {
+      background: #7c3aed; color: white; border: none; border-radius: 8px;
+      padding: 8px 22px; font-size: 13px; font-weight: 700; cursor: pointer;
+      font-family: inherit; transition: background .15s;
+    }
+    .board-submit:hover { background: #6d28d9; }
+    .board-submit:disabled { background: #cbd5e1; cursor: default; }
+    .board-list { display: flex; flex-direction: column; gap: 10px; }
+    .board-empty { font-size: 12px; color: #94a3b8; text-align: center; padding: 20px 0; }
+    .board-post { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px; }
+    .board-post-text { font-size: 13px; color: #1e293b; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
+    .board-post-meta { font-size: 10px; color: #94a3b8; margin-top: 6px; }
   </style>
 </head>
 <body>
@@ -200,6 +224,7 @@
   <button class="modal-btn" onclick="openModal('modal-manual')">使い方</button>
   <button class="modal-btn" onclick="openModal('modal-features')">できること</button>
   <button class="modal-btn" onclick="openModal('modal-changelog')">バージョン履歴</button>
+  <button class="modal-btn" onclick="openBoard()">ご意見・掲示板</button>
 </div>
 
 <div class="update-strip">
@@ -477,6 +502,29 @@
   </div>
 </div>
 
+<!-- モーダル: ご意見・掲示板 -->
+<div class="modal-overlay" id="modal-board">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h2>ご意見・掲示板</h2>
+      <button class="modal-close" onclick="closeModal('modal-board')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="board-intro">Mark Upper への要望・不具合・感想を匿名で投稿できます。名前の入力は不要です。投稿は全員に表示されます。</p>
+      <div class="board-form">
+        <textarea id="board-text" maxlength="1000" placeholder="ご意見をどうぞ（最大1000文字）"></textarea>
+        <div class="board-form-row">
+          <span class="board-status" id="board-status"></span>
+          <button class="board-submit" id="board-submit" onclick="muBoardPost()">投稿する</button>
+        </div>
+      </div>
+      <div class="board-list" id="board-list">
+        <div class="board-empty">読み込み中…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   function openModal(id) {
     document.getElementById(id).classList.add('open');
@@ -515,6 +563,58 @@
       if (data.download) btn.href = data.download;
     })
     .catch(() => { document.getElementById('version-badge').textContent = ''; });
+</script>
+
+<!-- ご意見・掲示板（Supabase） -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const MU_SB_URL = 'https://hiccejzetnmmvyopyykw.supabase.co';
+  const MU_SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhpY2NlanpldG5tbXZ5b3B5eWt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MjkwMTYsImV4cCI6MjA5NDQwNTAxNn0.Oo_KrFflZhhWOlaN_hT9XZpBjhDFAgccK82CyrgC3qU';
+  const muSb = supabase.createClient(MU_SB_URL, MU_SB_KEY);
+
+  function openBoard() {
+    openModal('modal-board');
+    muBoardLoad();
+  }
+
+  function muEsc(t) {
+    return t.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+  function muRelTime(iso) {
+    const d = new Date(iso), s = Math.floor((Date.now() - d) / 1000);
+    if (s < 60) return 'たった今';
+    if (s < 3600) return Math.floor(s / 60) + '分前';
+    if (s < 86400) return Math.floor(s / 3600) + '時間前';
+    if (s < 2592000) return Math.floor(s / 86400) + '日前';
+    return d.toLocaleDateString('ja-JP');
+  }
+
+  async function muBoardLoad() {
+    const list = document.getElementById('board-list');
+    const { data, error } = await muSb
+      .from('mu_board_posts').select('*')
+      .order('created_at', { ascending: false }).limit(200);
+    if (error) { list.innerHTML = '<div class="board-empty">読み込みに失敗しました</div>'; return; }
+    if (!data || !data.length) { list.innerHTML = '<div class="board-empty">まだ投稿はありません。最初のひと言をどうぞ。</div>'; return; }
+    list.innerHTML = data.map(p =>
+      `<div class="board-post"><div class="board-post-text">${muEsc(p.text)}</div><div class="board-post-meta">${muRelTime(p.created_at)}</div></div>`
+    ).join('');
+  }
+
+  async function muBoardPost() {
+    const ta = document.getElementById('board-text');
+    const btn = document.getElementById('board-submit');
+    const status = document.getElementById('board-status');
+    const text = ta.value.trim();
+    if (!text) { status.textContent = '内容を入力してください'; return; }
+    btn.disabled = true; status.textContent = '送信中…';
+    const { error } = await muSb.from('mu_board_posts').insert({ text });
+    btn.disabled = false;
+    if (error) { status.textContent = '送信に失敗しました'; return; }
+    ta.value = ''; status.textContent = '投稿しました ✓';
+    setTimeout(() => { status.textContent = ''; }, 2500);
+    muBoardLoad();
+  }
 </script>
 </body>
 </html>
