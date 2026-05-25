@@ -232,6 +232,7 @@
     .thread-card-title { font-size: 13px; font-weight: 700; color: #1e293b; line-height: 1.5; }
     .thread-card-meta { font-size: 11px; color: #94a3b8; margin-top: 4px; display: flex; gap: 12px; }
     .thread-card-meta .rc { color: #7c3aed; font-weight: 700; }
+    .thread-card-meta .op { color: #475569; font-weight: 600; }
     /* スレ詳細 */
     .board-back { background: none; border: none; color: #7c3aed; font-size: 12px; font-weight: 600; cursor: pointer; padding: 0; margin-bottom: 10px; font-family: inherit; }
     .board-back:hover { text-decoration: underline; }
@@ -744,16 +745,18 @@
   async function muLoadThreads() {
     const el = document.getElementById('board-threads');
     const { data, error } = await muSb.from('mu_threads')
-      .select('id,title,version,bumped_at,mu_posts(count)')
+      .select('id,title,version,bumped_at,mu_posts(name,num)')
       .order('bumped_at', { ascending: false }).limit(100);
     if (error) { el.innerHTML = '<div class="board-empty">読み込みに失敗しました</div>'; return; }
     if (!data || !data.length) { el.innerHTML = '<div class="board-empty">まだスレッドはありません。最初のスレッドを立ててください。</div>'; return; }
     el.innerHTML = data.map(t => {
-      const rc = (t.mu_posts && t.mu_posts[0] && t.mu_posts[0].count) || 0;
+      const posts = t.mu_posts || [];
+      const rc = posts.length;
+      const op = (posts.find(p => p.num === 1) || posts.slice().sort((a, b) => a.num - b.num)[0] || {}).name || '名無しさん';
       const ver = t.version ? `<span class="ver-badge">${muEsc(t.version)}</span>` : '';
       return `<div class="thread-card" data-id="${t.id}" data-title="${muAttr(t.title)}" data-version="${muAttr(t.version || '')}" onclick="muOpenThread(this.dataset.id, this.dataset.title, this.dataset.version)">
         <div class="thread-card-title">${ver}${muEsc(t.title)}</div>
-        <div class="thread-card-meta"><span class="rc">${rc} レス</span><span>${muRelTime(t.bumped_at)}</span></div>
+        <div class="thread-card-meta"><span class="op">👤 ${muEsc(op)}</span><span class="rc">${rc} レス</span><span>${muRelTime(t.bumped_at)}</span></div>
       </div>`;
     }).join('');
   }
