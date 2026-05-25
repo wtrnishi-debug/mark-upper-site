@@ -208,6 +208,10 @@
     }
     .board-newthread textarea:focus, .board-reply textarea:focus { outline: none; border-color: #a78bfa; }
     .board-toolbar { margin-bottom: 14px; }
+    .board-ver-row { display: flex; align-items: center; gap: 10px; }
+    .board-ver-row label { font-size: 12px; font-weight: 600; color: #475569; white-space: nowrap; }
+    .board-ver-row select { flex: 1; }
+    .ver-badge { display: inline-block; background: #ede9fe; color: #7c3aed; font-size: 10px; font-weight: 700; border-radius: 10px; padding: 1px 9px; }
     .board-form-row { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
     .board-status { font-size: 11px; color: #64748b; margin-right: auto; }
     .board-submit { background: #7c3aed; color: white; border: none; border-radius: 8px; padding: 8px 18px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background .15s; }
@@ -233,6 +237,8 @@
     .board-back:hover { text-decoration: underline; }
     .board-thread-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid #ede9fe; }
     .board-thread-title { font-size: 16px; font-weight: 700; color: #1e293b; line-height: 1.5; flex: 1; }
+    .board-thread-title .ver-badge { margin-right: 8px; vertical-align: middle; }
+    .thread-card-title .ver-badge { margin-right: 6px; vertical-align: middle; }
     .board-thread-actions { display: flex; gap: 6px; flex-shrink: 0; }
     .board-thread-actions button, .post-actions button {
       background: none; border: 1px solid #e2e8f0; border-radius: 5px;
@@ -571,6 +577,10 @@
         </div>
         <div class="board-newthread" id="board-newthread" style="display:none">
           <input type="text" id="nt-title" maxlength="60" class="board-input" placeholder="スレッドタイトル（最大60文字）">
+          <div class="board-ver-row">
+            <label for="nt-version">対象バージョン</label>
+            <select id="nt-version" class="board-input"></select>
+          </div>
           <input type="text" id="nt-name" maxlength="30" class="board-input" placeholder="名前（任意・空欄は名無しさん）">
           <textarea id="nt-text" maxlength="2000" placeholder="本文（最大2000文字）"></textarea>
           <div class="board-file-row">
@@ -591,7 +601,7 @@
       <div id="board-thread-view" style="display:none">
         <button class="board-back" onclick="muShowList()">← スレッド一覧へ</button>
         <div class="board-thread-head">
-          <h3 class="board-thread-title" id="bt-title"></h3>
+          <h3 class="board-thread-title"><span id="bt-version"></span><span id="bt-titletext"></span></h3>
           <div class="board-thread-actions">
             <button onclick="muEditThreadTitle()">✎ タイトル</button>
             <button onclick="muDeleteThread()">🗑 スレ削除</button>
@@ -709,21 +719,30 @@
     document.getElementById('board-body').scrollTop = 0;
     muLoadThreads();
   }
-  function muShowNewThread() { document.getElementById('board-newthread').style.display = 'flex'; }
+  function muShowNewThread() { muFillVersions(); document.getElementById('board-newthread').style.display = 'flex'; }
   function muHideNewThread() { document.getElementById('board-newthread').style.display = 'none'; }
+  function muFillVersions() {
+    const sel = document.getElementById('nt-version');
+    if (sel.dataset.filled) return;
+    const vers = [...document.querySelectorAll('#modal-changelog .cl-ver')].map(e => e.textContent.trim()).filter(Boolean);
+    sel.innerHTML = '<option value="">バージョン指定なし・全般</option>' + vers.map(v => `<option value="${muAttr(v)}">${muEsc(v)}</option>`).join('');
+    if (vers.length) sel.selectedIndex = 1; // 最新を既定
+    sel.dataset.filled = '1';
+  }
 
   // ── スレ一覧 ──
   async function muLoadThreads() {
     const el = document.getElementById('board-threads');
     const { data, error } = await muSb.from('mu_threads')
-      .select('id,title,bumped_at,mu_posts(count)')
+      .select('id,title,version,bumped_at,mu_posts(count)')
       .order('bumped_at', { ascending: false }).limit(100);
     if (error) { el.innerHTML = '<div class="board-empty">読み込みに失敗しました</div>'; return; }
     if (!data || !data.length) { el.innerHTML = '<div class="board-empty">まだスレッドはありません。最初のスレッドを立ててください。</div>'; return; }
     el.innerHTML = data.map(t => {
       const rc = (t.mu_posts && t.mu_posts[0] && t.mu_posts[0].count) || 0;
-      return `<div class="thread-card" data-id="${t.id}" data-title="${muAttr(t.title)}" onclick="muOpenThread(this.dataset.id, this.dataset.title)">
-        <div class="thread-card-title">${muEsc(t.title)}</div>
+      const ver = t.version ? `<span class="ver-badge">${muEsc(t.version)}</span>` : '';
+      return `<div class="thread-card" data-id="${t.id}" data-title="${muAttr(t.title)}" data-version="${muAttr(t.version || '')}" onclick="muOpenThread(this.dataset.id, this.dataset.title, this.dataset.version)">
+        <div class="thread-card-title">${ver}${muEsc(t.title)}</div>
         <div class="thread-card-meta"><span class="rc">${rc} レス</span><span>${muRelTime(t.bumped_at)}</span></div>
       </div>`;
     }).join('');
@@ -731,6 +750,7 @@
 
   async function muCreateThread() {
     const title = document.getElementById('nt-title').value.trim();
+    const version = document.getElementById('nt-version').value;
     const name = document.getElementById('nt-name').value.trim() || '名無しさん';
     const text = document.getElementById('nt-text').value.trim();
     const status = document.getElementById('nt-status');
@@ -740,7 +760,7 @@
     btn.disabled = true; status.textContent = '送信中…';
     const img = await muUploadImage('nt-image', status);
     if (!img.ok) { btn.disabled = false; return; }
-    const { data: th, error: e1 } = await muSb.from('mu_threads').insert({ title }).select().single();
+    const { data: th, error: e1 } = await muSb.from('mu_threads').insert({ title, version: version || null }).select().single();
     if (e1) { btn.disabled = false; status.textContent = '失敗しました'; return; }
     const { error: e2 } = await muSb.from('mu_posts').insert({ thread_id: th.id, name, text, image_url: img.url });
     btn.disabled = false;
@@ -748,13 +768,14 @@
     ['nt-title', 'nt-name', 'nt-text', 'nt-image'].forEach(id => document.getElementById(id).value = '');
     document.getElementById('nt-image-name').textContent = ''; status.textContent = '';
     muHideNewThread();
-    muOpenThread(th.id, title);
+    muOpenThread(th.id, title, version);
   }
 
   // ── スレ詳細 ──
-  async function muOpenThread(id, title) {
+  async function muOpenThread(id, title, version) {
     muCurThread = id;
-    document.getElementById('bt-title').textContent = title;
+    document.getElementById('bt-titletext').textContent = title;
+    document.getElementById('bt-version').innerHTML = version ? `<span class="ver-badge">${muEsc(version)}</span>` : '';
     document.getElementById('board-list-view').style.display = 'none';
     document.getElementById('board-thread-view').style.display = 'block';
     document.getElementById('board-body').scrollTop = 0;
@@ -803,14 +824,14 @@
     muLoadPosts(muCurThread);
   }
   async function muEditThreadTitle() {
-    const cur = document.getElementById('bt-title').textContent;
+    const cur = document.getElementById('bt-titletext').textContent;
     const t = prompt('スレッドタイトルを編集', cur);
     if (t === null) return;
     const title = t.trim();
     if (!title) { alert('タイトルが空です'); return; }
     const { error } = await muSb.from('mu_threads').update({ title }).eq('id', muCurThread);
     if (error) { alert('保存に失敗しました'); return; }
-    document.getElementById('bt-title').textContent = title;
+    document.getElementById('bt-titletext').textContent = title;
   }
   async function muDeleteThread() {
     if (!confirm('このスレッドを丸ごと削除しますか？（レスも全部消えます）')) return;

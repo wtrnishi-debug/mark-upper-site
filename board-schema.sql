@@ -8,6 +8,7 @@ drop table if exists mu_board_posts;
 create table mu_threads (
   id uuid default gen_random_uuid() primary key,
   title text not null,
+  version text,                          -- 対象バージョン（任意）
   created_at timestamptz default now(),
   bumped_at timestamptz default now()    -- 最終レス時刻（一覧の並び順用）
 );
