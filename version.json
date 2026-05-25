@@ -1,5 +1,5 @@
 {
-  "version": "2.20.26",
-  "notes": "コメントサイト一覧のサムネを、各サイトのOGP画像（og:image）を表示する方式に変更しました。OGP画像が設定されていないサイトは、これまで通りファビコン表示になります。外部スクリーンショットサービスへの依存をやめ、広告ブロッカー等の影響でサムネが出ない問題を解消しました。",
-  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.26.zip"
+  "version": "2.20.27",
+  "notes": "拡張機能のコンソールに出ていたメンバー名の重複エラーを解消しました。コメントサイト一覧のサムネ（OGP画像）が表示されない原因を特定するための診断ログを追加しました。",
+  "download": "https://wtrnishi-debug.github.io/mark-upper-site/downloads/mark-upper-2.20.27.zip"
 }
