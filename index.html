@@ -180,29 +180,54 @@
     .cl-ver { font-weight: 700; font-size: 12px; color: #7c3aed; white-space: nowrap; width: 50px; flex-shrink: 0; }
     .cl-notes { font-size: 12px; color: #334155; line-height: 1.5; }
 
-    /* ── ご意見・掲示板（BBS） ── */
-    .board-intro { font-size: 12px; color: #64748b; line-height: 1.6; margin-bottom: 14px; }
-    .board-form { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-    .board-form textarea {
-      width: 100%; min-height: 84px; resize: vertical;
+    /* ── ご意見・掲示板（2ch型BBS） ── */
+    .board-input { width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 12px; font-family: inherit; font-size: 13px; color: #1e293b; }
+    .board-input:focus { outline: none; border-color: #a78bfa; }
+    .board-newthread, .board-reply { display: flex; flex-direction: column; gap: 8px; }
+    .board-newthread { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 16px; }
+    .board-newthread textarea, .board-reply textarea {
+      width: 100%; min-height: 70px; resize: vertical;
       border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px 12px;
       font-family: inherit; font-size: 13px; color: #1e293b; line-height: 1.6;
     }
-    .board-form textarea:focus { outline: none; border-color: #a78bfa; }
-    .board-form-row { display: flex; align-items: center; gap: 10px; justify-content: flex-end; }
+    .board-newthread textarea:focus, .board-reply textarea:focus { outline: none; border-color: #a78bfa; }
+    .board-toolbar { margin-bottom: 14px; }
+    .board-form-row { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
     .board-status { font-size: 11px; color: #64748b; margin-right: auto; }
-    .board-submit {
-      background: #7c3aed; color: white; border: none; border-radius: 8px;
-      padding: 8px 22px; font-size: 13px; font-weight: 700; cursor: pointer;
-      font-family: inherit; transition: background .15s;
-    }
+    .board-submit { background: #7c3aed; color: white; border: none; border-radius: 8px; padding: 8px 18px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background .15s; }
     .board-submit:hover { background: #6d28d9; }
     .board-submit:disabled { background: #cbd5e1; cursor: default; }
-    .board-list { display: flex; flex-direction: column; gap: 10px; }
+    .board-submit-sub { background: #f1f5f9; color: #475569; border: none; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
+    .board-submit-sub:hover { background: #e2e8f0; }
+    .board-file-row { display: flex; align-items: center; gap: 10px; }
+    .board-file-label { font-size: 12px; color: #7c3aed; cursor: pointer; border: 1px solid #c4b5fd; border-radius: 6px; padding: 4px 10px; background: #f5f3ff; }
+    .board-file-label:hover { background: #ede9fe; }
+    .board-file-label input { display: none; }
+    .board-file-name { font-size: 11px; color: #64748b; }
     .board-empty { font-size: 12px; color: #94a3b8; text-align: center; padding: 20px 0; }
-    .board-post { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px; }
-    .board-post-text { font-size: 13px; color: #1e293b; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
-    .board-post-meta { font-size: 10px; color: #94a3b8; margin-top: 6px; }
+    /* スレ一覧 */
+    .board-threads { display: flex; flex-direction: column; gap: 8px; }
+    .thread-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 11px 14px; cursor: pointer; transition: border-color .15s, background .15s; }
+    .thread-card:hover { border-color: #a78bfa; background: #fbfaff; }
+    .thread-card-title { font-size: 13px; font-weight: 700; color: #1e293b; line-height: 1.5; }
+    .thread-card-meta { font-size: 11px; color: #94a3b8; margin-top: 4px; display: flex; gap: 12px; }
+    .thread-card-meta .rc { color: #7c3aed; font-weight: 700; }
+    /* スレ詳細 */
+    .board-back { background: none; border: none; color: #7c3aed; font-size: 12px; font-weight: 600; cursor: pointer; padding: 0; margin-bottom: 10px; font-family: inherit; }
+    .board-back:hover { text-decoration: underline; }
+    .board-thread-title { font-size: 16px; font-weight: 700; color: #1e293b; line-height: 1.5; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid #ede9fe; }
+    .board-posts { display: flex; flex-direction: column; gap: 14px; margin-bottom: 18px; }
+    .post { border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; border-radius: 4px; transition: background .3s; }
+    .post:last-child { border-bottom: none; }
+    .post-hdr { font-size: 11px; margin-bottom: 5px; }
+    .post-num { color: #16a34a; font-weight: 700; }
+    .post-name { color: #7c3aed; font-weight: 700; margin: 0 6px; }
+    .post-date { color: #94a3b8; }
+    .post-text { font-size: 13px; color: #1e293b; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
+    .post-anchor { color: #2563eb; cursor: pointer; }
+    .post-anchor:hover { text-decoration: underline; }
+    .post-img { margin-top: 8px; }
+    .post-img img { max-width: 240px; max-height: 240px; border-radius: 6px; border: 1px solid #e2e8f0; cursor: pointer; display: block; }
   </style>
 </head>
 <body>
@@ -509,17 +534,47 @@
       <h2>ご意見・掲示板</h2>
       <button class="modal-close" onclick="closeModal('modal-board')">✕</button>
     </div>
-    <div class="modal-body">
-      <p class="board-intro">Mark Upper への要望・不具合・感想を匿名で投稿できます。名前の入力は不要です。投稿は全員に表示されます。</p>
-      <div class="board-form">
-        <textarea id="board-text" maxlength="1000" placeholder="ご意見をどうぞ（最大1000文字）"></textarea>
-        <div class="board-form-row">
-          <span class="board-status" id="board-status"></span>
-          <button class="board-submit" id="board-submit" onclick="muBoardPost()">投稿する</button>
+    <div class="modal-body" id="board-body">
+      <!-- 一覧ビュー -->
+      <div id="board-list-view">
+        <div class="board-toolbar">
+          <button class="board-submit" onclick="muShowNewThread()">＋ スレッドを立てる</button>
+        </div>
+        <div class="board-newthread" id="board-newthread" style="display:none">
+          <input type="text" id="nt-title" maxlength="60" class="board-input" placeholder="スレッドタイトル（最大60文字）">
+          <input type="text" id="nt-name" maxlength="30" class="board-input" placeholder="名前（任意・空欄は名無しさん）">
+          <textarea id="nt-text" maxlength="2000" placeholder="本文（最大2000文字）"></textarea>
+          <div class="board-file-row">
+            <label class="board-file-label">📎 画像を選ぶ<input type="file" id="nt-image" accept="image/*" onchange="muPreview('nt')"></label>
+            <span class="board-file-name" id="nt-image-name"></span>
+          </div>
+          <div class="board-form-row">
+            <span class="board-status" id="nt-status"></span>
+            <button class="board-submit-sub" onclick="muHideNewThread()">キャンセル</button>
+            <button class="board-submit" id="nt-submit" onclick="muCreateThread()">立てる</button>
+          </div>
+        </div>
+        <div class="board-threads" id="board-threads">
+          <div class="board-empty">読み込み中…</div>
         </div>
       </div>
-      <div class="board-list" id="board-list">
-        <div class="board-empty">読み込み中…</div>
+      <!-- スレ詳細ビュー -->
+      <div id="board-thread-view" style="display:none">
+        <button class="board-back" onclick="muShowList()">← スレッド一覧へ</button>
+        <h3 class="board-thread-title" id="bt-title"></h3>
+        <div class="board-posts" id="board-posts"></div>
+        <div class="board-reply">
+          <input type="text" id="re-name" maxlength="30" class="board-input" placeholder="名前（任意・空欄は名無しさん）">
+          <textarea id="re-text" maxlength="2000" placeholder="返信（最大2000文字）"></textarea>
+          <div class="board-file-row">
+            <label class="board-file-label">📎 画像を選ぶ<input type="file" id="re-image" accept="image/*" onchange="muPreview('re')"></label>
+            <span class="board-file-name" id="re-image-name"></span>
+          </div>
+          <div class="board-form-row">
+            <span class="board-status" id="re-status"></span>
+            <button class="board-submit" id="re-submit" onclick="muReply()">返信する</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -572,14 +627,11 @@
   const MU_SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhpY2NlanpldG5tbXZ5b3B5eWt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MjkwMTYsImV4cCI6MjA5NDQwNTAxNn0.Oo_KrFflZhhWOlaN_hT9XZpBjhDFAgccK82CyrgC3qU';
   const muSb = supabase.createClient(MU_SB_URL, MU_SB_KEY);
 
-  function openBoard() {
-    openModal('modal-board');
-    muBoardLoad();
-  }
+  let muCurThread = null;
 
-  function muEsc(t) {
-    return t.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  }
+  // ── 共通ヘルパー ──
+  function muEsc(t) { return (t || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  function muAttr(t) { return (t || '').replace(/[&"]/g, c => ({ '&': '&amp;', '"': '&quot;' }[c])); }
   function muRelTime(iso) {
     const d = new Date(iso), s = Math.floor((Date.now() - d) / 1000);
     if (s < 60) return 'たった今';
@@ -588,32 +640,118 @@
     if (s < 2592000) return Math.floor(s / 86400) + '日前';
     return d.toLocaleDateString('ja-JP');
   }
-
-  async function muBoardLoad() {
-    const list = document.getElementById('board-list');
-    const { data, error } = await muSb
-      .from('mu_board_posts').select('*')
-      .order('created_at', { ascending: false }).limit(200);
-    if (error) { list.innerHTML = '<div class="board-empty">読み込みに失敗しました</div>'; return; }
-    if (!data || !data.length) { list.innerHTML = '<div class="board-empty">まだ投稿はありません。最初のひと言をどうぞ。</div>'; return; }
-    list.innerHTML = data.map(p =>
-      `<div class="board-post"><div class="board-post-text">${muEsc(p.text)}</div><div class="board-post-meta">${muRelTime(p.created_at)}</div></div>`
-    ).join('');
+  function muDateFull(iso) {
+    const d = new Date(iso), z = n => ('0' + n).slice(-2);
+    return `${d.getFullYear()}/${z(d.getMonth() + 1)}/${z(d.getDate())} ${z(d.getHours())}:${z(d.getMinutes())}`;
+  }
+  function muRenderText(t) {
+    return muEsc(t).replace(/&gt;&gt;(\d+)/g, '<span class="post-anchor" onclick="muJump($1)">&gt;&gt;$1</span>');
+  }
+  function muJump(n) {
+    const el = document.getElementById('post-' + n);
+    if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.style.background = '#fef9c3'; setTimeout(() => el.style.background = '', 1200); }
+  }
+  function muPreview(p) {
+    const f = document.getElementById(p + '-image').files[0];
+    document.getElementById(p + '-image-name').textContent = f ? f.name : '';
+  }
+  async function muUploadImage(inputId, statusEl) {
+    const f = document.getElementById(inputId).files[0];
+    if (!f) return { ok: true, url: null };
+    if (f.size > 5 * 1024 * 1024) { statusEl.textContent = '画像は5MBまで'; return { ok: false }; }
+    const ext = (f.name.split('.').pop() || 'jpg').toLowerCase();
+    const path = `${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    const { error } = await muSb.storage.from('board-images').upload(path, f, { contentType: f.type });
+    if (error) { statusEl.textContent = '画像アップロード失敗'; return { ok: false }; }
+    return { ok: true, url: muSb.storage.from('board-images').getPublicUrl(path).data.publicUrl };
   }
 
-  async function muBoardPost() {
-    const ta = document.getElementById('board-text');
-    const btn = document.getElementById('board-submit');
-    const status = document.getElementById('board-status');
-    const text = ta.value.trim();
-    if (!text) { status.textContent = '内容を入力してください'; return; }
+  // ── ビュー切替 ──
+  function openBoard() { openModal('modal-board'); muHideNewThread(); muShowList(); }
+  function muShowList() {
+    document.getElementById('board-thread-view').style.display = 'none';
+    document.getElementById('board-list-view').style.display = 'block';
+    document.getElementById('board-body').scrollTop = 0;
+    muLoadThreads();
+  }
+  function muShowNewThread() { document.getElementById('board-newthread').style.display = 'flex'; }
+  function muHideNewThread() { document.getElementById('board-newthread').style.display = 'none'; }
+
+  // ── スレ一覧 ──
+  async function muLoadThreads() {
+    const el = document.getElementById('board-threads');
+    const { data, error } = await muSb.from('mu_threads')
+      .select('id,title,bumped_at,mu_posts(count)')
+      .order('bumped_at', { ascending: false }).limit(100);
+    if (error) { el.innerHTML = '<div class="board-empty">読み込みに失敗しました</div>'; return; }
+    if (!data || !data.length) { el.innerHTML = '<div class="board-empty">まだスレッドはありません。最初のスレッドを立ててください。</div>'; return; }
+    el.innerHTML = data.map(t => {
+      const rc = (t.mu_posts && t.mu_posts[0] && t.mu_posts[0].count) || 0;
+      return `<div class="thread-card" data-id="${t.id}" data-title="${muAttr(t.title)}" onclick="muOpenThread(this.dataset.id, this.dataset.title)">
+        <div class="thread-card-title">${muEsc(t.title)}</div>
+        <div class="thread-card-meta"><span class="rc">${rc} レス</span><span>${muRelTime(t.bumped_at)}</span></div>
+      </div>`;
+    }).join('');
+  }
+
+  async function muCreateThread() {
+    const title = document.getElementById('nt-title').value.trim();
+    const name = document.getElementById('nt-name').value.trim() || '名無しさん';
+    const text = document.getElementById('nt-text').value.trim();
+    const status = document.getElementById('nt-status');
+    const btn = document.getElementById('nt-submit');
+    if (!title) { status.textContent = 'タイトルを入力してください'; return; }
+    if (!text) { status.textContent = '本文を入力してください'; return; }
     btn.disabled = true; status.textContent = '送信中…';
-    const { error } = await muSb.from('mu_board_posts').insert({ text });
+    const img = await muUploadImage('nt-image', status);
+    if (!img.ok) { btn.disabled = false; return; }
+    const { data: th, error: e1 } = await muSb.from('mu_threads').insert({ title }).select().single();
+    if (e1) { btn.disabled = false; status.textContent = '失敗しました'; return; }
+    const { error: e2 } = await muSb.from('mu_posts').insert({ thread_id: th.id, name, text, image_url: img.url });
     btn.disabled = false;
-    if (error) { status.textContent = '送信に失敗しました'; return; }
-    ta.value = ''; status.textContent = '投稿しました ✓';
-    setTimeout(() => { status.textContent = ''; }, 2500);
-    muBoardLoad();
+    if (e2) { status.textContent = '本文の投稿に失敗しました'; return; }
+    ['nt-title', 'nt-name', 'nt-text', 'nt-image'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('nt-image-name').textContent = ''; status.textContent = '';
+    muHideNewThread();
+    muOpenThread(th.id, title);
+  }
+
+  // ── スレ詳細 ──
+  async function muOpenThread(id, title) {
+    muCurThread = id;
+    document.getElementById('bt-title').textContent = title;
+    document.getElementById('board-list-view').style.display = 'none';
+    document.getElementById('board-thread-view').style.display = 'block';
+    document.getElementById('board-body').scrollTop = 0;
+    await muLoadPosts(id);
+  }
+  async function muLoadPosts(threadId) {
+    const el = document.getElementById('board-posts');
+    const { data, error } = await muSb.from('mu_posts').select('*').eq('thread_id', threadId).order('num');
+    if (error) { el.innerHTML = '<div class="board-empty">読み込みに失敗しました</div>'; return; }
+    el.innerHTML = (data || []).map(p => `
+      <div class="post" id="post-${p.num}">
+        <div class="post-hdr"><span class="post-num">${p.num}</span><span class="post-name">${muEsc(p.name)}</span><span class="post-date">${muDateFull(p.created_at)}</span></div>
+        <div class="post-text">${muRenderText(p.text)}</div>
+        ${p.image_url ? `<div class="post-img"><a href="${muAttr(p.image_url)}" target="_blank" rel="noopener"><img src="${muAttr(p.image_url)}" alt="添付画像" loading="lazy"></a></div>` : ''}
+      </div>`).join('');
+  }
+  async function muReply() {
+    const name = document.getElementById('re-name').value.trim() || '名無しさん';
+    const text = document.getElementById('re-text').value.trim();
+    const status = document.getElementById('re-status');
+    const btn = document.getElementById('re-submit');
+    if (!text) { status.textContent = '返信を入力してください'; return; }
+    btn.disabled = true; status.textContent = '送信中…';
+    const img = await muUploadImage('re-image', status);
+    if (!img.ok) { btn.disabled = false; return; }
+    const { error } = await muSb.from('mu_posts').insert({ thread_id: muCurThread, name, text, image_url: img.url });
+    btn.disabled = false;
+    if (error) { status.textContent = '失敗しました'; return; }
+    document.getElementById('re-text').value = ''; document.getElementById('re-image').value = '';
+    document.getElementById('re-image-name').textContent = ''; status.textContent = '';
+    await muLoadPosts(muCurThread);
+    document.getElementById('board-posts').lastElementChild?.scrollIntoView({ behavior: 'smooth' });
   }
 </script>
 </body>
