@@ -330,7 +330,7 @@
       if (mu.filter === 'all') show = true;
       else if (mu.filter === 'hide-fixed') show = c.status !== 'fixed';
       else show = c.status === mu.filter;
-      pin.style.display = show ? '' : 'none';
+      pin.classList.toggle('__mu_pin_hidden', !show);
     }
   }
 
@@ -402,6 +402,7 @@
   box-shadow: 0 2px 10px rgba(0,0,0,.45) !important;
   transition: transform .15s !important; z-index: 2147483645 !important; }
 .__mu_pin:hover { transform: translate(-50%,-100%) rotate(-45deg) scale(1.2) !important; }
+.__mu_pin_hidden   { display: none !important; }
 .__mu_pin_open     { box-shadow: 0 0 0 2px #ef4444, 0 2px 10px rgba(0,0,0,.45) !important; }
 .__mu_pin_fixed    { box-shadow: 0 0 0 2px #3b82f6, 0 2px 10px rgba(0,0,0,.45) !important; opacity: .85 !important; }
 .__mu_pin_verified { box-shadow: 0 0 0 2px #10b981, 0 2px 10px rgba(0,0,0,.45) !important; opacity: .55 !important; }
