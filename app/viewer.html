@@ -49,6 +49,8 @@
         if (!res.ok) throw new Error('HTTP ' + res.status);
         let html = await res.text();
 
+        html = html.replace(/<meta[^>]+http-equiv\s*=\s*["']?Content-Security-Policy["']?[^>]*>/gi, '');
+
         const pinScriptUrl = new URL('viewer-pins.js', location.href).href;
         const ctx = JSON.stringify({ sessionId: data.session_id, pageUrl: data.page_url, snapId });
         const inject = `
