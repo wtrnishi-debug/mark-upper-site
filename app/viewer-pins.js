@@ -270,14 +270,18 @@
   }
 
   async function changeStatus(c, next) {
-    await mu.sb.from('mu_comments').update({ status: next }).eq('id', c.id);
+    const { error } = await mu.sb.from('mu_comments').update({ status: next }).eq('id', c.id);
+    if (error) { toast('更新に失敗: ' + error.message); return; }
     c.status = next;
     const pin = mu.pins[c.id];
-    if (pin) {
-      pin.className = `__mu_pin __mu_pin_${next}`;
-    }
-    closePop();
+    if (pin) pin.className = `__mu_pin __mu_pin_${next}`;
     applyFilter();
+    // ポップアップを開き直して反映を表示
+    const pop = document.getElementById('__mu_popup');
+    if (pop && pin) {
+      const r = pin.getBoundingClientRect();
+      openDetail(c, r.right + 8, r.top);
+    }
   }
 
   async function deleteComment(c) {
@@ -300,10 +304,12 @@
   function addPin(c) {
     if (mu.pins[c.id]) return;
     const init = (c.author || '?')[0].toUpperCase();
+    const docW = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth);
+    const docH = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
     const pin = document.createElement('div');
     pin.className = `__mu_pin __mu_pin_${c.status}`;
-    pin.style.left = c.x_percent + '%';
-    pin.style.top  = c.y_percent + '%';
+    pin.style.left = (c.x_percent / 100 * docW) + 'px';
+    pin.style.top  = (c.y_percent / 100 * docH) + 'px';
     pin.style.background = authorColor(c.author);
     pin.innerHTML = `<span class="__mu_init">${esc(init)}</span>`;
     pin.title = `${c.author}: ${c.text}`;
@@ -358,9 +364,17 @@
     pop.style.top  = (cy + 14) + 'px';
     requestAnimationFrame(() => {
       const vw = window.innerWidth, vh = window.innerHeight;
+      const pw = pop.offsetWidth, ph = pop.offsetHeight;
+      // 右下のMark Upperパネル領域（おおよそ 280×200px）を回避
+      const panelLeft = vw - 280, panelTop = vh - 220;
       let l = cx + 14, t = cy + 14;
-      if (l + pop.offsetWidth  > vw - 8) l = cx - pop.offsetWidth  - 14;
-      if (t + pop.offsetHeight > vh - 8) t = cy - pop.offsetHeight - 14;
+      if (l + pw > vw - 8) l = cx - pw - 14;
+      if (t + ph > vh - 8) t = cy - ph - 14;
+      // パネルと重なる場合は左上方向へ寄せる
+      if (l + pw > panelLeft && t + ph > panelTop) {
+        l = Math.max(8, panelLeft - pw - 14);
+        t = Math.max(8, t);
+      }
       pop.style.left = Math.max(8, l) + 'px';
       pop.style.top  = Math.max(8, t) + 'px';
     });
@@ -388,8 +402,10 @@
   box-shadow: 0 2px 10px rgba(0,0,0,.45) !important;
   transition: transform .15s !important; z-index: 2147483645 !important; }
 .__mu_pin:hover { transform: translate(-50%,-100%) rotate(-45deg) scale(1.2) !important; }
-.__mu_pin_fixed { opacity: .55 !important; }
-.__mu_pin_verified { opacity: .35 !important; }
+.__mu_pin_open     { box-shadow: 0 0 0 2px #ef4444, 0 2px 10px rgba(0,0,0,.45) !important; }
+.__mu_pin_fixed    { box-shadow: 0 0 0 2px #3b82f6, 0 2px 10px rgba(0,0,0,.45) !important; opacity: .85 !important; }
+.__mu_pin_verified { box-shadow: 0 0 0 2px #10b981, 0 2px 10px rgba(0,0,0,.45) !important; opacity: .55 !important; }
+.__mu_pin_rejected { box-shadow: 0 0 0 2px #f97316, 0 2px 10px rgba(0,0,0,.45) !important; }
 .__mu_init { transform: rotate(45deg) !important;
   font-size: 10px !important; font-weight: 700 !important; color: #fff !important;
   font-family: -apple-system, sans-serif !important; line-height: 1 !important;
