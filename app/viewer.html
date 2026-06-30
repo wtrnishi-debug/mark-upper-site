@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mark Upper Viewer</title>
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden;
+      font-family: -apple-system, "Hiragino Sans", sans-serif; background: #1a1a1a; }
+    #bar { position: fixed; top: 0; left: 0; right: 0; height: 36px;
+      background: rgba(20,20,20,.92); color: #ddd; display: flex; align-items: center;
+      padding: 0 14px; font-size: 12px; z-index: 10; border-bottom: 1px solid #2e2e2e; }
+    #bar .title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; opacity: .85; }
+    #bar .meta  { opacity: .55; font-size: 11px; margin-left: 12px; }
+    iframe { position: absolute; top: 36px; left: 0; width: 100%;
+      height: calc(100% - 36px); border: 0; background: #fff; }
+    .err { padding: 40px; color: #ddd; text-align: center; }
+  </style>
+</head>
+<body>
+  <div id="bar">
+    <span class="title" id="title">Loading…</span>
+    <span class="meta"  id="meta"></span>
+  </div>
+  <iframe id="frame" sandbox="allow-same-origin allow-scripts allow-popups"></iframe>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SB_URL = 'https://hiccejzetnmmvyopyykw.supabase.co';
+    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhpY2NlanpldG5tbXZ5b3B5eWt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MjkwMTYsImV4cCI6MjA5NDQwNTAxNn0.Oo_KrFflZhhWOlaN_hT9XZpBjhDFAgccK82CyrgC3qU';
+
+    (async function () {
+      const snapId = new URLSearchParams(location.search).get('snap');
+      if (!snapId) { showErr('snap ID が指定されていません'); return; }
+
+      const sb = supabase.createClient(SB_URL, SB_KEY);
+      const { data, error } = await sb.from('mu_snapshots')
+        .select('id, page_url, storage_path, created_at')
+        .eq('id', snapId).single();
+      if (error || !data) { showErr('スナップショットが見つかりません'); return; }
+
+      document.getElementById('title').textContent = data.page_url;
+      document.getElementById('meta').textContent =
+        new Date(data.created_at).toLocaleString('ja-JP');
+      const url = `${SB_URL}/storage/v1/object/public/mu-snapshots/${data.storage_path}`;
+      document.getElementById('frame').src = url;
+    })();
+
+    function showErr(msg) {
+      document.body.innerHTML = `<p class="err">${msg}</p>`;
+    }
+  </script>
+</body>
+</html>
