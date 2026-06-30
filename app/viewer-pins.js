@@ -8,6 +8,14 @@
   const SB_URL = 'https://hiccejzetnmmvyopyykw.supabase.co';
   const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhpY2NlanpldG5tbXZ5b3B5eWt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MjkwMTYsImV4cCI6MjA5NDQwNTAxNn0.Oo_KrFflZhhWOlaN_hT9XZpBjhDFAgccK82CyrgC3qU';
 
+  function safeStore(action, key, val) {
+    try {
+      if (action === 'get') return localStorage.getItem(key);
+      if (action === 'set') localStorage.setItem(key, val);
+    } catch (_) {}
+    return '';
+  }
+
   const mu = {
     sb: null,
     sessionId: CTX.sessionId,
@@ -15,10 +23,11 @@
     comments:  [],
     pins:      {},
     annotating: false,
-    userName:  localStorage.getItem('mu_username') || '',
+    userName:  safeStore('get', 'mu_username') || '',
     filter:    'all',
     el:        {},
   };
+  console.log('[MU viewer-pins] loaded', mu.sessionId, mu.pageUrl);
 
   if (!mu.sessionId || !mu.pageUrl) {
     console.warn('MU_VIEWER context missing');
@@ -332,7 +341,7 @@
     const name = prompt('表示名を入力してください', mu.userName);
     if (name === null) return;
     mu.userName = name.trim();
-    if (mu.userName) localStorage.setItem('mu_username', mu.userName);
+    if (mu.userName) safeStore('set', 'mu_username', mu.userName);
     refreshPanel();
   }
 
