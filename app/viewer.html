@@ -22,7 +22,7 @@
     <span class="title" id="title">Loading…</span>
     <span class="meta"  id="meta"></span>
   </div>
-  <iframe id="frame" sandbox="allow-same-origin allow-scripts allow-popups"></iframe>
+  <iframe id="frame" sandbox="allow-scripts allow-popups allow-same-origin"></iframe>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -43,7 +43,15 @@
       document.getElementById('meta').textContent =
         new Date(data.created_at).toLocaleString('ja-JP');
       const url = `${SB_URL}/storage/v1/object/public/mu-snapshots/${data.storage_path}`;
-      document.getElementById('frame').src = url;
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const html = await res.text();
+        const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+        document.getElementById('frame').src = URL.createObjectURL(blob);
+      } catch (e) {
+        showErr('スナップショットの読み込みに失敗しました: ' + e.message);
+      }
     })();
 
     function showErr(msg) {
