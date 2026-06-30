@@ -22,7 +22,7 @@
     <span class="title" id="title">Loading…</span>
     <span class="meta"  id="meta"></span>
   </div>
-  <iframe id="frame" sandbox="allow-scripts allow-popups allow-same-origin"></iframe>
+  <iframe id="frame" sandbox="allow-scripts allow-popups allow-same-origin allow-modals"></iframe>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -35,18 +35,32 @@
 
       const sb = supabase.createClient(SB_URL, SB_KEY);
       const { data, error } = await sb.from('mu_snapshots')
-        .select('id, page_url, storage_path, created_at')
+        .select('id, session_id, page_url, storage_path, created_at')
         .eq('id', snapId).single();
       if (error || !data) { showErr('スナップショットが見つかりません'); return; }
 
       document.getElementById('title').textContent = data.page_url;
       document.getElementById('meta').textContent =
         new Date(data.created_at).toLocaleString('ja-JP');
+
       const url = `${SB_URL}/storage/v1/object/public/mu-snapshots/${data.storage_path}`;
       try {
         const res = await fetch(url);
         if (!res.ok) throw new Error('HTTP ' + res.status);
-        const html = await res.text();
+        let html = await res.text();
+
+        const pinScriptUrl = new URL('viewer-pins.js', location.href).href;
+        const ctx = JSON.stringify({ sessionId: data.session_id, pageUrl: data.page_url, snapId });
+        const inject = `
+<script>window.MU_VIEWER = ${ctx};<\/script>
+<script src="${pinScriptUrl}"><\/script>`;
+
+        if (/<\/body>/i.test(html)) {
+          html = html.replace(/<\/body>/i, inject + '</body>');
+        } else {
+          html += inject;
+        }
+
         const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
         document.getElementById('frame').src = URL.createObjectURL(blob);
       } catch (e) {
